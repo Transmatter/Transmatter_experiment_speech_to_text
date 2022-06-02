@@ -1,3 +1,3 @@
-# My Vite + Vue + Tailwind Template
+# Transmatter Platform
 
-just creat this template for future usage
+🚧 will update if there anythign else to update
