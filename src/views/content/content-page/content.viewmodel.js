@@ -14,11 +14,47 @@ export const useViewModel = () => {
         })
     }
     
+    const fetchSpecificContent = (value) => {
+        if(value === "ไทยรัฐออนไลน์"){
+            ContentService()
+            .getThairathContents()
+            .then((res) => {
+                contents.value = res.data.data.getNewsBySource
+                isLoading.value = false
+            })
+        }
+        if(value === "sanook"){
+            ContentService()
+            .getSanookContents()
+            .then((res) => {
+                contents.value = res.data.data.getNewsBySource
+                isLoading.value = false
+            })
+        }
+        if(value === "dek-d"){
+            ContentService()
+            .getDekDContents()
+            .then((res) => {
+                contents.value = res.data.data.getNewsBySource
+                isLoading.value = false
+            })
+        }
+        if(value==="normal people"){
+            ContentService()
+            .getOtherContents()
+            .then((res) => {
+                contents.value = res.data.data.getNewsBySource
+                isLoading.value = false
+            })
+        }
+    }
+
     onMounted(() => {
         fetchContent()
     })
     
     return {
+        fetchSpecificContent,
         contents,
         isLoading
     }
