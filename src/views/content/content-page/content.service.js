@@ -28,6 +28,7 @@ const ContentService = () => {
                 id
                 title
                 public_date
+                content
                 author
             }
         }
@@ -49,6 +50,7 @@ const ContentService = () => {
                 id
                 title
                 public_date
+                content
                 author
             }
         }
@@ -71,6 +73,7 @@ const ContentService = () => {
                 id
                 title
                 public_date
+                content
                 author
             }
         }
