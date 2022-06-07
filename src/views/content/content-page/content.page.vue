@@ -18,6 +18,9 @@
         </div>
     </div>
     <NewsDetailsVue :contents="contents"/>
+    <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
+        <pagination v-model="page" :records="10" :per-page="5" @paginate="getAllContents"/>
+    </div>
 </template>
 
 <script>
@@ -25,15 +28,18 @@ import { useViewModel } from "./content.viewmodel";
 import NewsDetailsVue from "@/components/NewsDetails.vue";
 import ButtomVue from "@/widget/Buttom.vue";
 import ContentService from "./content.service";
+import Pagination from 'v-pagination-3';
 
 export default {
     name: "Content Page",
     components: {
         NewsDetailsVue,
-        ButtomVue
+        ButtomVue,
+        Pagination
     },
     data(){
         return {
+            page : 1,
             contents: [],
             query : ''
         }
@@ -52,26 +58,33 @@ export default {
         };
     },
     methods : {
+        getAllContents(){
+            ContentService()
+                .getAllContents(this.page)
+                .then((res) => {
+                    this.contents = res.data.data.getAllContents.content
+            });
+        },
         getContent(value) {
             if(value==="all"){
                 ContentService()
-                .getAllContents()
+                .getAllContents(this.page)
                 .then((res) => {
-                    this.contents = res.data.data.getAllContents
+                    this.contents = res.data.data.getAllContents.content
                 });
             } else {
                 ContentService()
-                .getContents(value)
+                .getContents(value,this.page)
                 .then((res) => {
-                    this.contents = res.data.data.getNewsBySource
+                    this.contents = res.data.data.getNewsBySource.content
                 });
             }
         },
         searchContent(){
             ContentService()
-            .searchContent(this.query)
+            .searchContent(this.query,this.page)
             .then((res) => {
-                this.contents = res.data.data.searchNews
+                this.contents = res.data.data.searchNews.content
             });
         }
     }

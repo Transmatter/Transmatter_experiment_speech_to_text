@@ -7,6 +7,7 @@ const ContentDetailSerivce = () => {
         query($id:String){
             getContent(id:$id){
                 id
+                type
                 source
                 author
                 title

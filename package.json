@@ -17,6 +17,7 @@
     "dayjs": "1.10.7",
     "nprogress": "0.2.0",
     "postcss": "7.0.39",
+    "v-pagination-3": "^0.1.7",
     "vee-validate": "4.5.11",
     "vue": "3.2.25",
     "vue-input-facade": "2.0.1",

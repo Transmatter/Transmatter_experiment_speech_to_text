@@ -1,35 +1,52 @@
 import graphqlClient from "@/service/GraphQLClient";
 
 const ContentService = () => {
-    const getAllContents = () => {
+    const getAllContents = (page=1) => {
         const query = `
-        query {
-            getAllContents{
-                id
-                source
-                author
-                title
-                content
-                public_date
+        query($filter:PageFilter) {
+            getAllContents(filter:$filter){
+                number
+                totalPages
+                totalElements
+                content { 
+                    id
+                    type
+                    source
+                    title
+                    author
+                    public_date
+                }
             }
         }
         `;
 
         const graphql = {
-            query: query
+            query: query,
+            variables: {
+            	filter: {
+		            page: page,
+		            size: 5
+	            }
+            }
         }
         return graphqlClient(graphql);
     };
     
-    const getContents = (source) => {
+    const getContents = (source,page) => {
         const query = `
-        query($source:String){
-            getNewsBySource(source:$source){
-                id
-                title
-                public_date
-                content
-                author
+        query($source:String,$filter:PageFilter){
+            getNewsBySource(source:$source,filter:$filter){
+                number
+                totalPages
+                totalElements
+                content { 
+                    id
+                    type
+                    source
+                    title
+                    author
+                    public_date
+                }
             }
         }
         `;
@@ -38,28 +55,41 @@ const ContentService = () => {
             query: query,
             variables : {
                 source: source,
+            	filter: {
+		            page: page,
+		            size: 5
+	            }
             }
         }
         return graphqlClient(graphql);
     };
 
-    const searchContent = (keyword) => {
+    const searchContent = (keyword,page) => {
         const query = `
-        query($title:String){
-	        searchNews(title:$title){
-		        id
-		        source
-		        title
-                author
-                content
-		        public_date
-	        }
+        query($title:String,$filter:PageFilter){
+            searchNews(title:$title,filter:$filter){
+                number
+                totalPages
+                totalElements
+                content { 
+                    id
+                    type
+                    source
+                    title
+                    author
+                    public_date
+                }
+            }
         }
         `;
         const graphql = {
             query: query,
             variables : {
                 title: keyword,
+            	filter: {
+		            page: page,
+		            size: 5
+	            }
             }
         }
         return graphqlClient(graphql);

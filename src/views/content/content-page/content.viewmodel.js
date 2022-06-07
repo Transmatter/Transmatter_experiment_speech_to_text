@@ -9,7 +9,7 @@ export const useViewModel = () => {
         ContentService()
         .getAllContents()
         .then((res) => {
-            contents.value = res.data.data.getAllContents
+            contents.value = res.data.data.getAllContents.content
             isLoading.value = false
         })
     }
