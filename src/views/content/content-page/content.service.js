@@ -21,7 +21,7 @@ const ContentService = () => {
         return graphqlClient(graphql);
     };
     
-    const getThairathContents = () => {
+    const getContents = (source) => {
         const query = `
         query($source:String){
             getNewsBySource(source:$source){
@@ -37,81 +37,34 @@ const ContentService = () => {
         const graphql = {
             query: query,
             variables : {
-                source: "ไทยรัฐออนไลน์"
+                source: source,
             }
         }
         return graphqlClient(graphql);
     };
 
-    const getSanookContents = () => {
+    const searchContent = (keyword) => {
         const query = `
-        query($source:String){
-            getNewsBySource(source:$source){
-                id
-                title
-                public_date
+        query($title:String){
+	        searchNews(title:$title){
+		        id
+		        source
+		        title
+                author
                 content
-                author
-            }
+		        public_date
+	        }
         }
         `;
-
-        const variables = {
-            source: "sanook"
-        }
         const graphql = {
             query: query,
-            variables : variables
-        }
-        return graphqlClient(graphql);
-    };
-
-    const getDekDContents = () => {
-        const query = `
-        query($source:String){
-            getNewsBySource(source:$source){
-                id
-                title
-                public_date
-                content
-                author
+            variables : {
+                title: keyword,
             }
         }
-        `;
-
-        const variables = {
-            source: "dek-d"
-        }
-        const graphql = {
-            query: query,
-            variables : variables
-        }
         return graphqlClient(graphql);
-    }; 
-
-    const getOtherContents = () => {
-        const query = `
-        query($source:String){
-            getNewsBySource(source:$source){
-                id
-                title
-                public_date
-                author
-            }
-        }
-        `;
-
-        const variables = {
-            source: "normal people"
-        }
-        const graphql = {
-            query: query,
-            variables : variables
-        }
-        return graphqlClient(graphql);
-    };
-    return { getAllContents, getThairathContents, getSanookContents, getDekDContents, getOtherContents };
-
-}
+    }
+    return { getAllContents, getContents, searchContent};
+};
 
 export default ContentService;
