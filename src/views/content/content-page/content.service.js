@@ -20,8 +20,51 @@ const ContentService = () => {
         }
         return graphqlClient(graphql);
     };
+    
+    const getContents = (source) => {
+        const query = `
+        query($source:String){
+            getNewsBySource(source:$source){
+                id
+                title
+                public_date
+                content
+                author
+            }
+        }
+        `;
 
-    return { getAllContents }
-}
+        const graphql = {
+            query: query,
+            variables : {
+                source: source,
+            }
+        }
+        return graphqlClient(graphql);
+    };
+
+    const searchContent = (keyword) => {
+        const query = `
+        query($title:String){
+	        searchNews(title:$title){
+		        id
+		        source
+		        title
+                author
+                content
+		        public_date
+	        }
+        }
+        `;
+        const graphql = {
+            query: query,
+            variables : {
+                title: keyword,
+            }
+        }
+        return graphqlClient(graphql);
+    }
+    return { getAllContents, getContents, searchContent};
+};
 
 export default ContentService;
