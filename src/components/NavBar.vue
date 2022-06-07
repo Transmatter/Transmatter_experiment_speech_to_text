@@ -10,7 +10,7 @@ export default {
     },
     methods:{
         mockLogin(){
-            this.$store.state.login = !this.$store.state.login;
+            this.$router.push('/login');
         }
     } 
 };
@@ -31,7 +31,7 @@ export default {
                             </div>
                         </div>
                     </div>
-                    <ProfileIcon v-if="this.$store.state.login"/>
+                    <ProfileIcon v-if="this.$store.getters.getCurrentUser != null"/>
                     <Buttom @click="mockLogin" v-else buttonName="Sign in"/>
                 </div>
             </div>

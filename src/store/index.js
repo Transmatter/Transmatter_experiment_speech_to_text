@@ -3,9 +3,22 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     trigger:false,
-    login:false, // template please remove this if you have a acutal authentication service
+    currentUser : null
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    setCurrentUser(state, value) {
+      state.currentUser = value
+    },
+  },
+  getters: {
+    getCurrentUser(state){
+      return state.currentUser
+    }
+  },
+  actions: {
+    setCurrentUser(context, value) {
+      context.commit('setCurrentUser', value)
+    },
+  },
   modules: {},
 });

@@ -1,6 +1,7 @@
 <script>
 import MenuItem from './MenuItem.vue';
 import ProfileButton from './ProfileButton.vue';
+import Login from "@/service/LoginAPI.js";
 
 export default {
     components : {
@@ -9,7 +10,8 @@ export default {
     },
     methods:{
         mockLogout(){
-            this.$store.state.login = !this.$store.state.login;
+            Login.logout();
+            this.$router.push('/');
         }
     } 
 }
@@ -20,7 +22,8 @@ export default {
             <div class="ml-3 relative">
                 <div class="relative inline-block text-left">
                     <div>
-                        <ProfileButton />    
+                        <ProfileButton /> 
+                        {{$store.getters.getCurrentUser.username}}
                     </div>
                     <div
                         v-if="this.$store.state.trigger"
