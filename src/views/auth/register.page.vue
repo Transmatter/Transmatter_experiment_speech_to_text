@@ -1,10 +1,10 @@
 <template>
   <DefaultLayout>
     <section
-      class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
+      class="max-w-4xl my-6 p-6 mx-auto bg-white rounded-md shadow-md"
     >
       <h2
-        class="text-lg font-semibold text-gray-700 capitalize dark:text-white"
+        class="text-lg font-semibold text-gray-700 capitalize"
       >
         Account settings
       </h2>
@@ -12,77 +12,86 @@
       <Form @submit="handleRegister" :validation-schema="schema">
         <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
           <div>
-            <label class="text-gray-700 dark:text-gray-200" for="username"
+            <label class="text-gray-700" for="username"
               >Username</label
             >
             <Field
               name="username"
               type="text"
-              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
             />
             <ErrorMessage name="username" class="text-red-500" />
           </div>
 
           <div>
-            <label class="text-gray-700 dark:text-gray-200" for="email"
+            <label class="text-gray-700" for="email"
               >Email Address</label
             >
             <Field
               name="email"
               type="email"
-              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
             />
             <ErrorMessage name="email" class="text-red-500" />
           </div>
+          <div>
+            <label class="text-gray-700" for="firstname"
+              >Firstname</label
+            >
+            <Field
+              name="firstname"
+              type="text"
+              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
+            />
+            <ErrorMessage name="firstname" class="text-red-500" />
+          </div>
 
           <div>
-            <label class="text-gray-700 dark:text-gray-200" for="password"
+            <label class="text-gray-700" for="lastname"
+              >Lastname</label
+            >
+            <Field
+              name="lastname"
+              type="text"
+              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
+            />
+            <ErrorMessage name="lastname" class="text-red-500" />
+          </div>
+          <div>
+            <label class="text-gray-700" for="password"
               >Password</label
             >
             <Field
               name="password"
               type="password"
-              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
             />
             <ErrorMessage name="password" class="text-red-500" />
           </div>
 
           <div>
             <label
-              class="text-gray-700 dark:text-gray-200"
+              class="text-gray-700"
               for="passwordConfirmation"
               >Password Confirmation</label
             >
             <Field
               name="passwordConfirmation"
               type="password"
-              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
             />
             <ErrorMessage name="passwordConfirmation" class="text-red-500" />
           </div>
-
           <div>
-            <label class="text-gray-700 dark:text-gray-200" for="firstname"
-              >Firstname</label
+            <label class="text-gray-700" for="email"
+              >Phone NO</label
             >
             <Field
-              name="firstname"
+              name="phoneNo"
               type="text"
-              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
             />
-            <ErrorMessage name="firstname" class="text-red-500" />
-          </div>
-
-          <div>
-            <label class="text-gray-700 dark:text-gray-200" for="lastname"
-              >Lastname</label
-            >
-            <Field
-              name="lastname"
-              type="text"
-              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-            />
-            <ErrorMessage name="lastname" class="text-red-500" />
+            <ErrorMessage name="phoneNo" class="text-red-500" />
           </div>
         </div>
         <div class="flex justify-end mt-6">
@@ -141,6 +150,11 @@ export default {
         .required("your lastname is required!")
         .min(2, "Your lastname need to be at least 2 character")
         .max(50, "No one have that much long lastname"),
+      phoneNo : yup
+        .string()
+        .required("your phone number is required!")
+        .min(10, "Your phone number need to be at least 10 character")
+        .max(10, "No one have that much long phone number"), 
     });
     return {
       sex: "",
@@ -151,10 +165,10 @@ export default {
     handleRegister(user) {
       RegisterService.register(user)
         .then(() => {
-          this.$router.push({ name: "login" });
+          this.$router.push("/login");
         })
-        .catch(() => {
-          console.log("could not register");
+        .catch((err) => {
+          console.log("could not register " + err);
         });
     },
   },

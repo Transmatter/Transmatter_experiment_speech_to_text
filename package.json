@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ocrv/vue-tailwind-pagination": "^0.0.4",
     "@tailwindcss/line-clamp": "^0.4.0",
     "ag-grid-community": "27.3.0",
     "ag-grid-vue3": "27.3.0",

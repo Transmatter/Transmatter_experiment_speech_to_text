@@ -19,7 +19,15 @@
     </div>
     <NewsDetailsVue :contents="contents"/>
     <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
-        <pagination v-model="page" :records="10" :per-page="5" @paginate="getAllContents"/>
+        <VueTailwindPagination 
+            :current="page"
+            :total="10" 
+            :per-page="3" 
+            @page-changed="page=$event"
+            text-before-input="หน้า"
+            text-after-input="ไป"
+            @click="getAllContents"
+        />
     </div>
 </template>
 
@@ -28,14 +36,14 @@ import { useViewModel } from "./content.viewmodel";
 import NewsDetailsVue from "@/components/NewsDetails.vue";
 import ButtomVue from "@/widget/Buttom.vue";
 import ContentService from "./content.service";
-import Pagination from 'v-pagination-3';
+import VueTailwindPagination from '@ocrv/vue-tailwind-pagination'
 
 export default {
     name: "Content Page",
     components: {
         NewsDetailsVue,
         ButtomVue,
-        Pagination
+        VueTailwindPagination
     },
     data(){
         return {
@@ -59,6 +67,7 @@ export default {
     },
     methods : {
         getAllContents(){
+            console.log(this.page)
             ContentService()
                 .getAllContents(this.page)
                 .then((res) => {

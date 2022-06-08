@@ -25,7 +25,7 @@ const ContentService = () => {
             variables: {
             	filter: {
 		            page: page,
-		            size: 5
+		            size: 3
 	            }
             }
         }

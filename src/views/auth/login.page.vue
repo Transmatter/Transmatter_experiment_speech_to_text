@@ -1,17 +1,17 @@
 <template>
   <DefaultLayout>
     <section
-      class="max-w-4xl p-6 my-10 mx-auto bg-white rounded-md shadow-md"
+      class="max-w-md p-6 my-10 mx-auto bg-white rounded-md shadow-md"
     >
       <h2
-        class="text-lg font-semibold text-gray-700 capitalize"
+        class="text-3xl font-bold text-center font-semibold text-gray-700 capitalize"
       >
-        Account settings
+        Sign In
       </h2>
 
       <Form @submit="handleLogin" :validation-schema="schema">
-        <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-          <div>
+        <div>
+          <div class="my-4">
             <label class="text-gray-700" for="username"
               >Username</label
             >
@@ -22,8 +22,7 @@
             />
             <ErrorMessage name="username" class="text-red-500" />
           </div>
-          <div></div>
-          <div>
+          <div class="my-4">
             <label class="text-gray-700" for="password"
               >Password</label
             >
