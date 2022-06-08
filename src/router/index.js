@@ -27,6 +27,14 @@ const routes = [
     component: Register,
   },
   {
+    path: "/wating-list",
+    name: "Wating List",
+  },
+  {
+    path: "/news-without-alt",
+    name: "News Without Alt",
+  },
+  {
     path: "/news/:id",
     name: "News Details",
     component: ContentDetail,

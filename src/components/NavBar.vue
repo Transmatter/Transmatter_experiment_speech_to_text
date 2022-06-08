@@ -29,8 +29,21 @@ export default {
                         </a>
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
-                                <LinkButton path="Home"/>
-                                <LinkButton path="About"/>
+                                <span v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'">
+                                    <LinkButton path="Home"/>
+                                    <LinkButton path="Wating List" />
+                                    <LinkButton path="News Without Alt" />
+                                    <LinkButton path="About"/>
+                                </span>
+                                <span v-else-if="this.$store.getters.getRole == 'ROLE_ADMIN'">
+                                    <LinkButton path="Home"/>
+                                    <LinkButton path="News Without Alt" />
+                                    <LinkButton path="About"/>
+                                </span>
+                                <span v-else>
+                                    <LinkButton path="Home"/>
+                                    <LinkButton path="About"/>
+                                </span>
                             </div>
                         </div>
                     </div>

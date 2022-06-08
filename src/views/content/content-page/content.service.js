@@ -12,6 +12,7 @@ const ContentService = () => {
                     id
                     type
                     source
+                    content
                     title
                     author
                     public_date
@@ -43,6 +44,7 @@ const ContentService = () => {
                     id
                     type
                     source
+                    content
                     title
                     author
                     public_date
@@ -75,6 +77,7 @@ const ContentService = () => {
                     id
                     type
                     source
+                    content
                     title
                     author
                     public_date
