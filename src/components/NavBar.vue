@@ -35,7 +35,7 @@ export default {
                                     <LinkButton path="News Without Alt" />
                                     <LinkButton path="About"/>
                                 </span>
-                                <span v-else-if="this.$store.getters.getRole == 'ROLE_ADMIN'">
+                                <span v-else-if="this.$store.getters.getRole == 'ROLE_ADMIN' && this.$store.getters.getStatus == 'VERIFIED'">
                                     <LinkButton path="Home"/>
                                     <LinkButton path="News Without Alt" />
                                     <LinkButton path="About"/>

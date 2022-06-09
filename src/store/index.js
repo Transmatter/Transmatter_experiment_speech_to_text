@@ -4,6 +4,7 @@ export default createStore({
   state: {
     trigger:false,
     role:"",
+    status:"",
     currentUser : null
   },
   mutations: {
@@ -12,6 +13,9 @@ export default createStore({
     },
     setRole(state,value){
       state.role = value
+    },
+    setStatus(state,value){
+      state.status = value
     }
   },
   getters: {
@@ -20,6 +24,9 @@ export default createStore({
     },
     getRole(state){
       return state.role
+    },
+    getStatus(state){
+      return state.status
     }
   },
   actions: {
@@ -28,6 +35,9 @@ export default createStore({
     },
     setRole(context,value){
       context.commit('setRole',value)
+    },
+    setStatus(context,value){
+      context.commit('setStatus',value)
     }
   },
   modules: {},

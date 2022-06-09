@@ -4,6 +4,7 @@ import ContentDetail from "@/views/content/content-detail-page/content-detail.pa
 import About from "@/views/About.vue";
 import Login from "@/views/auth/login.page.vue";
 import Register from "@/views/auth/register.page.vue";
+import Nprogress from "nprogress";
 
 const routes = [
   {
@@ -45,5 +46,13 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.beforeEach(()=>{
+  Nprogress.start();
+})
+
+router.beforeEach(()=>{
+  Nprogress.done();
+})
 
 export default router;

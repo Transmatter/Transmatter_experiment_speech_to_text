@@ -18,16 +18,16 @@
         </div>
     </div>
     <NewsDetailsVue :contents="contents"/>
-    <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
-        <VueTailwindPagination 
-            :current="page"
-            :total="10" 
-            :per-page="3" 
-            @page-changed="page=$event"
-            text-before-input="หน้า"
-            text-after-input="ไป"
-            @click="getAllContents"
-        />
+    <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-80">
+        <div class="p-1">
+            <v-pagination 
+                v-model="page"
+                :pages="pages" 
+                :range-size="1" 
+                activeColor="#bbf7d0"
+                @update:modelValue="getAllContents"
+            />
+        </div>
     </div>
 </template>
 
@@ -36,14 +36,16 @@ import { useViewModel } from "./content.viewmodel";
 import NewsDetailsVue from "@/components/NewsDetails.vue";
 import ButtomVue from "@/widget/Buttom.vue";
 import ContentService from "./content.service";
-import VueTailwindPagination from '@ocrv/vue-tailwind-pagination'
+import VPagination from "@hennge/vue3-pagination";
+import "@hennge/vue3-pagination/dist/vue3-pagination.css";
+import Nprogress from 'nprogress';
 
 export default {
     name: "Content Page",
     components: {
         NewsDetailsVue,
         ButtomVue,
-        VueTailwindPagination
+        VPagination
     },
     data(){
         return {
@@ -56,36 +58,42 @@ export default {
         const {
             fetchSpecificContent,
             contents,
+            pages,
             isLoading
         } = useViewModel();
 
         return {
             fetchSpecificContent,
+            pages,
             contents,
             isLoading
         };
     },
     methods : {
         getAllContents(){
-            console.log(this.page)
+            Nprogress.start();
             ContentService()
                 .getAllContents(this.page)
                 .then((res) => {
                     this.contents = res.data.data.getAllContents.content
+                    Nprogress.done();
             });
         },
         getContent(value) {
+            Nprogress.start();
             if(value==="all"){
                 ContentService()
                 .getAllContents(this.page)
                 .then((res) => {
                     this.contents = res.data.data.getAllContents.content
+                    Nprogress.done();
                 });
             } else {
                 ContentService()
                 .getContents(value,this.page)
                 .then((res) => {
                     this.contents = res.data.data.getNewsBySource.content
+                    Nprogress.done();
                 });
             }
         },
@@ -94,6 +102,7 @@ export default {
             .searchContent(this.query,this.page)
             .then((res) => {
                 this.contents = res.data.data.searchNews.content
+                    Nprogress.done();
             });
         }
     }

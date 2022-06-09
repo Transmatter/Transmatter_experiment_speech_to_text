@@ -8,3 +8,8 @@
         font-family : 'Sarabun', sans-serif;
     }
 }
+
+#nprogress .bar {
+    background: #22c55e !important;
+    height:6px !important;
+}

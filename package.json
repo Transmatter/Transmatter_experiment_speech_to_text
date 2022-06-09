@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ocrv/vue-tailwind-pagination": "^0.0.4",
+    "@hennge/vue3-pagination": "^1.0.17",
     "@tailwindcss/line-clamp": "^0.4.0",
     "ag-grid-community": "27.3.0",
     "ag-grid-vue3": "27.3.0",
@@ -18,7 +18,6 @@
     "dayjs": "1.10.7",
     "nprogress": "0.2.0",
     "postcss": "7.0.39",
-    "v-pagination-3": "^0.1.7",
     "vee-validate": "4.5.11",
     "vue": "3.2.25",
     "vue-input-facade": "2.0.1",

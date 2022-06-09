@@ -13,6 +13,7 @@ export default {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         store.dispatch('setCurrentUser', response.data.user)
         store.dispatch('setRole', response.data.user.authorities[0])
+        store.dispatch('setStatus', response.data.user.status)
         return Promise.resolve(response.data);
       })
       .catch((error) => {
@@ -27,17 +28,4 @@ export default {
   getUser() {
     return JSON.parse(localStorage.getItem("user"));
   },
-  //     hasRoles(roles) {
-  //         if (GlobalStorage.currentUser && roles) {
-  //           let containRoles = GlobalStorage.currentUser.authorities.filter((authority) => roles.includes(authority))
-  //           if (containRoles.length > 0){
-  //             return true
-  //           }else{
-  //             return false
-  //           }
-
-  //         } else {
-  //           return false
-  //         }
-  // }
 };
