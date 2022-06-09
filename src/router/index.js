@@ -4,6 +4,7 @@ import ContentDetail from "@/views/content/content-detail-page/content-detail.pa
 import About from "@/views/About.vue";
 import Login from "@/views/auth/login.page.vue";
 import Register from "@/views/auth/register.page.vue";
+import AdminEmptyAltPage from "@/views/admin/admin-empty-alt-page/admin-empty-alt.page.vue";
 import Nprogress from "nprogress";
 
 const routes = [
@@ -34,6 +35,7 @@ const routes = [
   {
     path: "/news-without-alt",
     name: "News Without Alt",
+    component : AdminEmptyAltPage,
   },
   {
     path: "/news/:id",

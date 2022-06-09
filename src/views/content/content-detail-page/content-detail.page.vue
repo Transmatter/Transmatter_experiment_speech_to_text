@@ -8,7 +8,7 @@
             <div>
                 <img class="my-2 mx-3 h-64" :src="image.url" :alt="image.alt"/>
                 <div v-if="(this.$store.getters.getRole == 'ROLE_SUPER_ADMIN' || this.$store.getters.getRole == 'ROLE_ADMIN') && this.$store.getters.getStatus == 'VERIFIED'">
-                    <input v-model="imagesAlt[index]" class="my-2 mx-3 px-2 py-2 w-80 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring" type="text" placeholder="somethign"/>
+                    <input v-model="imagesAlt[index]" class="my-2 mx-3 px-2 py-2 w-80 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring" type="text" placeholder="คำอธิบายภาพ"/>
                 </div>
             </div>
         </div >

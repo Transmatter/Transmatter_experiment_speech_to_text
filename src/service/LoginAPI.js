@@ -26,6 +26,7 @@ export default {
     store.dispatch('setCurrentUser', null)
     store.dispatch('setRole', null)
     store.dispatch('setStatus', null)
+    this.$router.push("/")
   },
   getUser() {
     return JSON.parse(localStorage.getItem("user"));
