@@ -51,7 +51,8 @@ export default {
         return {
             page : 1,
             contents: [],
-            query : ''
+            query : '',
+            totalPage: 0 
         }
     },
     setup() {

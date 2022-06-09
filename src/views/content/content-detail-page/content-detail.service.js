@@ -26,7 +26,25 @@ const ContentDetailSerivce = () => {
         }
         return graphqlClient(graphql);
     }
-    return { getContentById }
+
+    const deleteContentById = (id) => {
+        const query = `
+        mutation($id:String){
+            deleteContent(id:$id){
+                id
+            }
+        }
+        `;
+
+        const graphql = {
+            query: query,
+            variables: {
+                id: id
+            }
+        }
+        return graphqlClient(graphql);
+    }
+    return { getContentById, deleteContentById }
 }
 
 export default ContentDetailSerivce;
