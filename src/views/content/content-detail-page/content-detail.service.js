@@ -44,7 +44,31 @@ const ContentDetailSerivce = () => {
         }
         return graphqlClient(graphql);
     }
-    return { getContentById, deleteContentById }
+
+    const updateImateAlt = (id,imagesAlt) => {
+        const query = `
+        mutation($id:String,$ImageText:[ImageText]){
+            updateImageContent(id:$id,imageText:$ImageText){
+                id
+                author
+                title
+                content
+                public_date
+                images { url alt }
+                comment { author content time image_urls }
+            }
+        }
+        `;
+        const graphql = {
+            query: query,
+            variables: {
+                id: id,
+                ImageText: imagesAlt
+            }
+        }
+        return graphqlClient(graphql);
+    }
+    return { getContentById, deleteContentById, updateImateAlt };
 }
 
 export default ContentDetailSerivce;

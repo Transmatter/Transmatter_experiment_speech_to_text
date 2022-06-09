@@ -24,6 +24,8 @@ export default {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     store.dispatch('setCurrentUser', null)
+    store.dispatch('setRole', null)
+    store.dispatch('setStatus', null)
   },
   getUser() {
     return JSON.parse(localStorage.getItem("user"));
