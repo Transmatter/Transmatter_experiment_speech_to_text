@@ -11,7 +11,10 @@ export default {
     methods:{
         mockLogout(){
             Login.logout();
-            this.$router.push('/');
+        },
+        seeDetail(){
+            this.$router.push(`/admin/${this.$store.getters.getCurrentUser.id}`);
+            this.$store.state.trigger = false
         }
     } 
 }
@@ -41,7 +44,7 @@ export default {
                     >
                         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <MenuItem content="Setting"/>                            
-                            <MenuItem content="Account"/>                            
+                            <MenuItem @click="seeDetail" content="Account"/>                            
                             <MenuItem @click="mockLogout" content="Logout"/>                            
                         </div>
                     </div>

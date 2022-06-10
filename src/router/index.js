@@ -5,6 +5,8 @@ import About from "@/views/About.vue";
 import Login from "@/views/auth/login.page.vue";
 import Register from "@/views/auth/register.page.vue";
 import AdminEmptyAltPage from "@/views/admin/admin-empty-alt-page/admin-empty-alt.page.vue";
+import AdminWatingListPage from "@/views/admin/admin-waitling-list/admin-waiting-list.page.vue";
+import AdminDetailPage from "@/views/admin/admin-detail-page/admin-detail.page.vue";
 import Nprogress from "nprogress";
 
 const routes = [
@@ -31,6 +33,7 @@ const routes = [
   {
     path: "/wating-list",
     name: "Wating List",
+    component : AdminWatingListPage
   },
   {
     path: "/news-without-alt",
@@ -41,6 +44,11 @@ const routes = [
     path: "/news/:id",
     name: "News Details",
     component: ContentDetail,
+  },
+  {
+    path: "/admin/:id",
+    name : "Admin Detail",
+    component : AdminDetailPage,
   }
 ];
 

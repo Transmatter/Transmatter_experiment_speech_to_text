@@ -24,7 +24,7 @@ export default {
     },
     methods : {
         getDate(dateString){
-            return dayjs(dateString).locale('th').format('DD MMMM YYYY HH:mm');
+            return dayjs(dateString).locale('th').format('DD MMMM YYYY');
         }
     }
 }
