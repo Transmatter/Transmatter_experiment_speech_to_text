@@ -3,13 +3,15 @@ import ContentService from './content.service'
 
 export const useViewModel = () => {
     const contents = ref([])
+    const pages = ref()
     const isLoading = ref(false)
 
     const fetchContent = () => {
         ContentService()
         .getAllContents()
         .then((res) => {
-            contents.value = res.data.data.getAllContents
+            contents.value = res.data.data.getAllContents.content
+            pages.value = res.data.data.getAllContents.totalPages
             isLoading.value = false
         })
     }
@@ -55,6 +57,7 @@ export const useViewModel = () => {
     
     return {
         fetchSpecificContent,
+        pages,
         contents,
         isLoading
     }

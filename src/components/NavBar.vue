@@ -10,7 +10,10 @@ export default {
     },
     methods:{
         mockLogin(){
-            this.$store.state.login = !this.$store.state.login;
+            this.$router.push('/login');
+        },
+        mockRegister(){
+            this.$router.push('/register');
         }
     } 
 };
@@ -26,13 +29,29 @@ export default {
                         </a>
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
-                                <LinkButton path="Home"/>
-                                <LinkButton path="About"/>
+                                <span v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'">
+                                    <LinkButton path="Home"/>
+                                    <LinkButton path="Wating List" />
+                                    <LinkButton path="News Without Alt" />
+                                    <LinkButton path="About"/>
+                                </span>
+                                <span v-else-if="this.$store.getters.getRole == 'ROLE_ADMIN' && this.$store.getters.getStatus == 'VERIFIED'">
+                                    <LinkButton path="Home"/>
+                                    <LinkButton path="News Without Alt" />
+                                    <LinkButton path="About"/>
+                                </span>
+                                <span v-else>
+                                    <LinkButton path="Home"/>
+                                    <LinkButton path="About"/>
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <ProfileIcon v-if="this.$store.state.login"/>
-                    <Buttom @click="mockLogin" v-else buttonName="Sign in"/>
+                    <ProfileIcon v-if="this.$store.getters.getCurrentUser != null"/>
+                    <span v-else>
+                        <Buttom class="mx-2" @click="mockRegister" buttonName="Sign up"/>
+                        <Buttom class="mx-2" @click="mockLogin" buttonName="Sign in"/>
+                    </span>
                 </div>
             </div>
             <div class="md:hidden">

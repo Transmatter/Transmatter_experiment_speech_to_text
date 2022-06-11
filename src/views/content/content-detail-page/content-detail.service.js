@@ -7,6 +7,7 @@ const ContentDetailSerivce = () => {
         query($id:String){
             getContent(id:$id){
                 id
+                type
                 source
                 author
                 title
@@ -25,7 +26,49 @@ const ContentDetailSerivce = () => {
         }
         return graphqlClient(graphql);
     }
-    return { getContentById }
+
+    const deleteContentById = (id) => {
+        const query = `
+        mutation($id:String){
+            deleteContent(id:$id){
+                id
+            }
+        }
+        `;
+
+        const graphql = {
+            query: query,
+            variables: {
+                id: id
+            }
+        }
+        return graphqlClient(graphql);
+    }
+
+    const updateImateAlt = (id,imagesAlt) => {
+        const query = `
+        mutation($id:String,$ImageText:[ImageText]){
+            updateImageContent(id:$id,imageText:$ImageText){
+                id
+                author
+                title
+                content
+                public_date
+                images { url alt }
+                comment { author content time image_urls }
+            }
+        }
+        `;
+        const graphql = {
+            query: query,
+            variables: {
+                id: id,
+                ImageText: imagesAlt
+            }
+        }
+        return graphqlClient(graphql);
+    }
+    return { getContentById, deleteContentById, updateImateAlt };
 }
 
 export default ContentDetailSerivce;

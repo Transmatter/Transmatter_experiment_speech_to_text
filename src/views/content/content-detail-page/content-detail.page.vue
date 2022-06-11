@@ -4,28 +4,66 @@
         <p class="text-sm py-3 px-3">{{contentDetail.author}}</p>
         <p class="text-sm py-3 px-3">{{contentDetail.public_date}}</p>
         <p class="text-md py-3 px-3 leading-8 text-justify indent-8">{{contentDetail.content}}</p>
-        <div class="inline-flex items-baseline" v-for="image in contentDetail.images" :key="image.url">
-            <img class="my-2 mx-3 h-64" :src="image.url" :alt="image.alt"/>
+        <div class="inline-flex items-baseline" v-for="(image,index) in contentDetail.images" :key="index">
+            <div>
+                <img class="my-2 mx-3 h-64" :src="image.url" :alt="image.alt"/>
+                <div v-if="(this.$store.getters.getRole == 'ROLE_SUPER_ADMIN' || this.$store.getters.getRole == 'ROLE_ADMIN') && this.$store.getters.getStatus == 'VERIFIED'">
+                    <input v-model="imagesAlt[index]" class="my-2 mx-3 px-2 py-2 w-80 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring" type="text" placeholder="คำอธิบายภาพ"/>
+                </div>
+            </div>
         </div >
+        <div class="grid grid-cols-6 justify-item-end my-6" v-if="(this.$store.getters.getRole == 'ROLE_SUPER_ADMIN' || this.$store.getters.getRole == 'ROLE_ADMIN') && this.$store.getters.getStatus == 'VERIFIED'">
+            <ButtomVue @click="getImageContent()" class="mx-2" buttonName="update" />
+            <ButtomVue class="invisible" buttonName="update" />
+            <ButtomVue class="invisible" buttonName="update" />
+            <ButtomVue class="invisible" buttonName="update" />
+            <ButtomVue class="invisible" buttonName="update" />
+            <ButtomErrorVue @click="deleteId()" buttonName="delete" />
+        </div>
     </div>
 </template>
 <script>
 import { defineComponent } from "vue"
-// import { useViewModel } from "./content-detail.viewmodel"
+import ButtomErrorVue from "@/widget/ButtomError.vue";
+import ButtomVue from "@/widget/Buttom.vue";
 import ContentDetailSerivce from "./content-detail.service"
+import Nprogress from 'nprogress';
 export default defineComponent({
     name: 'ContentDetailPage',
-
-    // setup() {
-    //     const { contentDetail,isLoading } = useViewModel()
-    //     return {
-    //         contentDetail,
-    //         isLoading
-    //     }
-    // }
+    components : {
+        ButtomVue,
+        ButtomErrorVue
+    },
     data() {
         return {
-            contentDetail: {}
+            contentDetail: {},
+            imagesAlt : [], 
+            inputAlt : []
+        }
+    },
+    methods: {
+        getImageContent(){
+            Nprogress.start()
+            for(let i = 0; i < this.imagesAlt.length; i++){
+                this.inputAlt.push({'alt' : this.imagesAlt[i]});
+            }
+            ContentDetailSerivce()
+            .updateImateAlt(this.$route.params.id,this.inputAlt)
+            .then(() => {
+                Nprogress.done()
+                this.$router.push('/news/'+this.$route.params.id);
+            }).catch(error => {
+                console.log(error);
+            })
+        },
+        deleteId(){
+            Nprogress.start()
+            ContentDetailSerivce()
+            .deleteContentById(this.$route.params.id)
+            .then(() => {
+                Nprogress.done()
+                this.$router.push('/')
+            })
         }
     },
     created(){
@@ -33,6 +71,7 @@ export default defineComponent({
         .getContentById(this.$route.params.id)
         .then((res) => {
             this.contentDetail = res.data.data.getContent
+            this.imagesAlt = this.contentDetail.images.map(image => image.alt)
         })
     }
 });

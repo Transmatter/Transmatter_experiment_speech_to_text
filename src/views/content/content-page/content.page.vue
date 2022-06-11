@@ -18,6 +18,17 @@
         </div>
     </div>
     <NewsDetailsVue :contents="contents"/>
+    <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-80">
+        <div class="p-1">
+            <v-pagination 
+                v-model="page"
+                :pages="pages" 
+                :range-size="1" 
+                activeColor="#bbf7d0"
+                @update:modelValue="getAllContents"
+            />
+        </div>
+    </div>
 </template>
 
 <script>
@@ -25,53 +36,74 @@ import { useViewModel } from "./content.viewmodel";
 import NewsDetailsVue from "@/components/NewsDetails.vue";
 import ButtomVue from "@/widget/Buttom.vue";
 import ContentService from "./content.service";
+import VPagination from "@hennge/vue3-pagination";
+import "@hennge/vue3-pagination/dist/vue3-pagination.css";
+import Nprogress from 'nprogress';
 
 export default {
     name: "Content Page",
     components: {
         NewsDetailsVue,
-        ButtomVue
+        ButtomVue,
+        VPagination
     },
     data(){
         return {
+            page : 1,
             contents: [],
-            query : ''
+            query : '',
+            totalPage: 0 
         }
     },
     setup() {
         const {
             fetchSpecificContent,
             contents,
+            pages,
             isLoading
         } = useViewModel();
 
         return {
             fetchSpecificContent,
+            pages,
             contents,
             isLoading
         };
     },
     methods : {
+        getAllContents(){
+            Nprogress.start();
+            ContentService()
+                .getAllContents(this.page)
+                .then((res) => {
+                    this.contents = res.data.data.getAllContents.content
+                    Nprogress.done();
+            });
+        },
         getContent(value) {
+            Nprogress.start();
             if(value==="all"){
                 ContentService()
-                .getAllContents()
+                .getAllContents(this.page)
                 .then((res) => {
-                    this.contents = res.data.data.getAllContents
+                    this.contents = res.data.data.getAllContents.content
+                    Nprogress.done();
                 });
             } else {
                 ContentService()
-                .getContents(value)
+                .getContents(value,this.page)
                 .then((res) => {
-                    this.contents = res.data.data.getNewsBySource
+                    this.contents = res.data.data.getNewsBySource.content
+                    Nprogress.done();
                 });
             }
         },
         searchContent(){
             ContentService()
-            .searchContent(this.query)
+            .searchContent(this.query,this.page)
             .then((res) => {
-                this.contents = res.data.data.searchNews
+                this.contents = res.data.data.searchNews.content
+                    Nprogress.done();
             });
         }
     }
