@@ -1,11 +1,24 @@
 <template>
   <DefaultLayout>
     <section class="max-w-4xl my-6 p-6 mx-auto bg-white rounded-md shadow-md">
-      <h2 class="text-lg font-semibold text-gray-700 capitalize">
-        Account Data 
-        <span v-if="admin.status === 'VERIFIED'" class="text-green-600 font-bold">Verify</span>
-        <span v-else class="text-red-600 font-bold">Not Verify</span>
-      </h2>
+      <div class="grid grid-cols-5 justify-item-end my-6" v-if="this.$store.getters.getRole == 'ROLE_ADMIN'">
+        <span class="text-xl font-semibold text-gray-700 capitalize">
+          Account Data 
+          <span v-if="admin.status === 'VERIFIED'" class="text-green-600 font-bold">Verify</span>
+          <span v-else class="text-red-600 font-bold">Not Verify</span>
+        </span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <ButtomVue v-if="admin.username === this.$store.getters.getCurrentUser.username" buttonName="update" @click="updateAdmin"/>
+      </div>
+      <div v-else class="grid grid-cols-4 justify-item-end my-6">
+        <span class="text-xl font-semibold text-gray-700 capitalize">
+          Account Data 
+          <span v-if="admin.status === 'VERIFIED'" class="text-green-600 font-bold">Verify</span>
+          <span v-else class="text-red-600 font-bold">Not Verify</span>
+        </span>
+      </div>
         <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
           <div>
             <label class="text-gray-700" for="username">Username</label>
@@ -90,6 +103,14 @@ export default {
             .then(() => {
                 Nprogress.done()
                 this.$router.push("/wating-list");
+            })
+        },
+        updateAdmin(){
+            this.$router.push({
+              name : "Admin Update",
+              params : {
+                id: this.admin.id
+              },
             })
         }
     },

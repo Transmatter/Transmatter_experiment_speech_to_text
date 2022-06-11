@@ -7,6 +7,7 @@ import Register from "@/views/auth/register.page.vue";
 import AdminEmptyAltPage from "@/views/admin/admin-empty-alt-page/admin-empty-alt.page.vue";
 import AdminWatingListPage from "@/views/admin/admin-waitling-list/admin-waiting-list.page.vue";
 import AdminDetailPage from "@/views/admin/admin-detail-page/admin-detail.page.vue";
+import AdminUpdatePage from "@/views/admin/admin-update-page/admin-update.page.vue";
 import Nprogress from "nprogress";
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
     path: "/admin/:id",
     name : "Admin Detail",
     component : AdminDetailPage,
+  },
+  {
+    path: "/update/:id",
+    name : "Admin Update",
+    component : AdminUpdatePage,
   }
 ];
 
