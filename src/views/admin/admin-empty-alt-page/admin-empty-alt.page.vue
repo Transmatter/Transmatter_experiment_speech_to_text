@@ -46,10 +46,7 @@ export default {
             AdminEmptyAltService()
             .getEmptyAltContents(this.page)
             .then(response => {
-                console.log(this.page)
                 this.contents = response.data.data.getAllEmptyAltNews.content;
-                console.log(this.contents)
-                console.log(response.data.data.getAllEmptyAltNews.content)
                 Nprogress.done();
             })
         }

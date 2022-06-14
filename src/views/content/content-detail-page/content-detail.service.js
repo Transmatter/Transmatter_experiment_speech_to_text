@@ -14,6 +14,7 @@ const ContentDetailSerivce = () => {
                 content
                 images { url alt }
                 public_date
+                comment { author content time image_urls }
             }
         }
         `;
@@ -55,7 +56,6 @@ const ContentDetailSerivce = () => {
                 content
                 public_date
                 images { url alt }
-                comment { author content time image_urls }
             }
         }
         `;
