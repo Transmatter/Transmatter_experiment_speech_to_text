@@ -1,5 +1,6 @@
 import { ref, onMounted } from 'vue'
 import AdminEmptyAltService from './admin-empty-alt.service'
+import NProgress from 'nprogress'
 
 export const useViewModel = () => {
     const contents = ref([])
@@ -17,7 +18,9 @@ export const useViewModel = () => {
     }
     
     onMounted(() => {
+        NProgress.start()
         fetchContent()
+        NProgress.done()
     })
     
     return {

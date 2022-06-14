@@ -4,7 +4,7 @@ const adminDetailService = () => {
     const getAdminDetail = (id) => {
         const query = `
         query($id:Int) {
-	        getUserByID(id:$id){
+	        getAdminById(id:$id){
 		        id
 		        username
 		        firstname
@@ -28,7 +28,7 @@ const adminDetailService = () => {
     const getVerifyStatusToUser = (id,status) => {
         const query = `
         mutation($id:Int,$status:String){
-	        verifyUser(id:$id,status:$status){
+	        verifyAdmin(id:$id,status:$status){
 		        id
 		        username
 		        status
