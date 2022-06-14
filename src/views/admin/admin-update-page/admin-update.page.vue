@@ -172,7 +172,7 @@ export default {
         adminDetailService()
         .getAdminDetail(this.$route.params.id)
         .then((res) => {
-            this.admin = res.data.data.getUserByID
+            this.admin = res.data.data.getAdminById
             Nprogress.done()
         })
     },

@@ -4,7 +4,7 @@ const adminUpdateService = () => {
     const updateAdmin = (id,user) => {
         const query = `
         mutation($id:Int,$user:UserInput){
-	        updateUser(id:$id,user:$user){
+	        updateAdmin(id:$id,user:$user){
 		        id
 		        username
 		        firstname
