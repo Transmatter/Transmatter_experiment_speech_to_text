@@ -8,6 +8,8 @@ import AdminEmptyAltPage from "@/views/admin/admin-empty-alt-page/admin-empty-al
 import AdminWatingListPage from "@/views/admin/admin-waitling-list/admin-waiting-list.page.vue";
 import AdminDetailPage from "@/views/admin/admin-detail-page/admin-detail.page.vue";
 import AdminUpdatePage from "@/views/admin/admin-update-page/admin-update.page.vue";
+import AdminContentFetchingPage from "@/views/admin/admin-content-fetching/admin-content-fetching.page.vue";
+import AdminContentInterFetchingPage from "@/views/admin/admin-content-fetching/admin-content-inter-fetching.page.vue";
 import Nprogress from "nprogress";
 
 const routes = [
@@ -55,6 +57,16 @@ const routes = [
     path: "/update/:id",
     name : "Admin Update",
     component : AdminUpdatePage,
+  },
+  {
+    path: "/local-fetching",
+    name: "Local Fetching",
+    component: AdminContentFetchingPage
+  },
+  {
+    path: "/inter-fetching",
+    name : "Inter Fetching",
+    component : AdminContentInterFetchingPage
   }
 ];
 

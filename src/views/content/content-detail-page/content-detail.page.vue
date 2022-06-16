@@ -23,7 +23,7 @@
     </div>
     <div v-for="comment in contentDetail.comment" :key="comment" class="border hover:bg-green-100 lg:mx-80 my-4">
             <p class="px-6 py-2 text-sm">ผู้เขียน: {{convertAuthor(comment.author)}}</p>
-            <p class="px-6 py-2 text-sm line-clamp-3 indent-8">{{comment.content}}</p>
+            <p class="px-6 py-2 text-sm indent-8">{{comment.content}}</p>
             <p class="px-6 py-2 text-sm flex justify-end">{{comment.time}}</p>
         </div>
 </template>
