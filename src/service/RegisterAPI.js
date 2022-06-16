@@ -1,7 +1,8 @@
 import apiClient from "./axiosClient";
+import Nprogress from "nprogress";
 export default {
   register(user) {
-    console.log(user);
+    Nprogress.start();
     return apiClient
       .post("/registers", {
         username: user.username,
@@ -12,11 +13,13 @@ export default {
         phoneNo: user.phoneNo
       })
       .then((response) => {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        Nprogress.done();
+        alert("Your account had been created, please wait for our admin to verify your admin. We will let you know via your email");
         return Promise.resolve(response.data);
       })
       .catch((error) => {
+        Nprogress.done();
+        alert("The Email, or username was taken by other user");
         return Promise.reject(error);
       });
   },

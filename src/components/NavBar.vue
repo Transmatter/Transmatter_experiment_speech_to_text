@@ -33,6 +33,8 @@ export default {
                                     <LinkButton path="Home"/>
                                     <LinkButton path="Wating List" />
                                     <LinkButton path="News Without Alt" />
+                                    <LinkButton path="Local Fetching" />
+                                    <LinkButton path="Inter Fetching" />
                                     <LinkButton path="About"/>
                                 </span>
                                 <span v-else-if="this.$store.getters.getRole == 'ROLE_ADMIN' && this.$store.getters.getStatus == 'VERIFIED'">
