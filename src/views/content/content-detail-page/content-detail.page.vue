@@ -62,13 +62,16 @@ export default defineComponent({
             })
         },
         deleteId(){
-            Nprogress.start()
-            ContentDetailSerivce()
-            .deleteContentById(this.$route.params.id)
-            .then(() => {
-                Nprogress.done()
-                this.$router.push('/')
-            })
+            let check = confirm('คุณต้องการลบข้อมูลนี้ใช่หรือไม่');
+            if(check){
+                Nprogress.start()
+                ContentDetailSerivce()
+                    .deleteContentById(this.$route.params.id)
+                    .then(() => {
+                        Nprogress.done()
+                        this.$router.push('/')
+                    })
+            }
         },
         convertAuthor(author){
             if(author == null) {

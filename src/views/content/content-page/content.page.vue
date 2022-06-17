@@ -1,14 +1,22 @@
 <template>
     <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
         <div class="space-y-2 sm:space-y-0 sm:flex sm:-mx-1">
-            <ButtomVue @click="getContent('ไทยรัฐออนไลน์')" class="mx-2" buttonName="ไทยรัฐ" />
-            <ButtomVue @click="getContent('sanook')" class="mx-2" buttonName="สนุก" />
-            <ButtomVue @click="getContent('dek-d')" class="mx-2" buttonName="เด็กดี" />
-            <ButtomVue @click="getContent('normal people')" class="mx-2" buttonName="อื่นๆ" />
-            <ButtomVue @click="getContent('all')" class="mx-2" buttonName="ทังหมด" />
-            <ButtomVue @click="getContent('all')" class="invisible" buttonName="ทังหมด" />
-            <ButtomVue @click="getContent('all')" class="invisible" buttonName="ทังหมด" />
-            <ButtomVue @click="getContent('all')" class="invisible" buttonName="ทังหมด" />
+            <select name="news_category" class="px-3 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-green-600 rounded-md hover:bg-green-500 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-80">
+                <option value="ทั้งหมด">ข่าวทั้งหมด</option>
+                <option value="ไทยรัฐ">ไทยรัฐ:ทั้งหมด</option>
+                <option value="Economic">ไทยรัฐ:วิเคราะห์เศรษฐกิจ</option>
+                <option value="Finance">ไทยรัฐ:การเงิน</option>
+                <option value="Policy">ไทยรัฐ:นโยบาย</option>
+                <option value="Marketing">ไทยรัฐ:การตลาด</option>
+                <option value="Invest">ไทยรัฐ:การลงทุน</option>
+                <option value="Entertain">สนุก:บันเทิง</option>
+                <option value="life">เด็กดี:ชีวิตวัยรุ่น</option>
+            </select>
+            <ButtomVue @click="getContent('sanook')" class="mx-2 invisible" buttonName="สนุก" />
+            <ButtomVue @click="getContent('dek-d')" class="mx-2 invisible" buttonName="เด็กดี" />
+            <ButtomVue @click="getContent('dek-d')" class="mx-2 invisible" buttonName="เด็กดี" />
+            <ButtomVue @click="getContent('dek-d')" class="mx-2 invisible" buttonName="เด็กดี" />
+            <ButtomVue @click="getContent('dek-d')" class="mx-2 invisible" buttonName="เด็กดี" />
             <div class="flex flex-col mt-8 space-y-3 sm:space-y-0 sm:flex-row sm:justify-center sm:-mx-2">
                 <input v-model="query" type="text" class="px-4 py-2 text-gray-700 bg-white border rounded-md sm:mx-2 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40" placeholder="หาข่าวอื่นๆ">
                 <button @click="searchContent()" class="px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-green-600 rounded-md sm:mx-2 hover:bg-green-600 focus:outline-none focus:bg-green-600">
