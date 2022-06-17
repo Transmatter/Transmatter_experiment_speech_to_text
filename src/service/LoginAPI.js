@@ -29,7 +29,7 @@ export default {
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    router.push("/");
+    router.push("/login");
     store.dispatch('setCurrentUser', null)
     store.dispatch('setRole', null)
     store.dispatch('setStatus', null)
