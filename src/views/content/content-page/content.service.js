@@ -59,12 +59,45 @@ const ContentService = () => {
                 source: source,
             	filter: {
 		            page: page,
-		            size: 5
+		            size: 3
 	            }
             }
         }
         return graphqlClient(graphql);
     };
+
+    const getNewsBySourceAndCategory = (source,category,page) => {
+        const query = `
+        query($source:String,$type:String,$filter:PageFilter){
+            getNewsBySourceAndType(source:$source,type:$type,filter:$filter){
+                number
+                totalPages
+                totalElements
+                content { 
+                  id
+              type
+                  source
+                  title
+              author
+                  public_date
+                }
+            }
+        }
+        `;
+
+        const graphql = {
+            query: query,
+            variables : {
+                source: source,
+                type : category,
+                filter: {
+		            page: page,
+		            size: 3
+	            }
+            }
+        }
+        return graphqlClient(graphql);
+    }
 
     const searchContent = (keyword,page) => {
         const query = `
@@ -97,7 +130,7 @@ const ContentService = () => {
         }
         return graphqlClient(graphql);
     }
-    return { getAllContents, getContents, searchContent};
+    return { getAllContents, getContents, searchContent,getNewsBySourceAndCategory};
 };
 
 export default ContentService;

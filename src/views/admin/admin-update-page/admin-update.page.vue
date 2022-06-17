@@ -156,14 +156,17 @@ export default {
         Nprogress.start()
         adminUpdateService()
         .updateAdmin(this.$route.params.id,user)
-        .then(()=>{
-            Nprogress.done()
-            this.$router.push({
-                name: 'Admin Detail',
-                params: {
-                    id: this.admin.id
-                }
-            });
+        .then((res)=>{
+          if(res.data.data.updateAdmin == null){
+            alert("Admin data is invalid, Maybe username or email is duplicate")
+          }
+          Nprogress.done()
+          this.$router.push({
+              name: 'Admin Detail',
+              params: {
+                  id: this.admin.id
+              }
+          });
         })
     },
   },

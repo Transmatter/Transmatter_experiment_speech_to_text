@@ -46,6 +46,28 @@ const adminDetailService = () => {
         return graphqlClient(graphql);
     }
 
-    return { getAdminDetail , getVerifyStatusToUser};
+    const getNotVerifyStatusToUser = (id,reason,status) => {
+        const query = `
+        mutation($id:Int,$reason:String,$status:String){
+            verifyAdmin(id:$id,reason:$reason,status:$status){
+                id
+                username
+                status
+                email
+            }
+        }
+        `;
+        const graphql = {
+            query: query,
+            variables : {
+	            id: id,
+	            status: status,
+                reason : reason
+            }
+        }
+        return graphqlClient(graphql);
+    }
+
+    return { getAdminDetail , getVerifyStatusToUser, getNotVerifyStatusToUser};
 }
 export default adminDetailService;

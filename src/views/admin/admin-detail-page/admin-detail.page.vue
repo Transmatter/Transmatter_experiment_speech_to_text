@@ -98,12 +98,17 @@ export default {
         },
         notVerifyUser(){
             Nprogress.start()
-            adminDetailService()
-            .getVerifyStatusToUser(this.$route.params.id,"NOT_VERIFIED")
-            .then(() => {
-                Nprogress.done()
-                this.$router.push("/wating-list");
-            })
+            let check = confirm("Are you sure to not verify this user?");
+            if(check){
+              let reason = prompt("ทำไมถึงไม่รับรอง Admin คนนี้");
+                adminDetailService()
+                  .getNotVerifyStatusToUser(this.$route.params.id,reason,"NOT_VERIFIED")
+                  .then(() => {
+                    Nprogress.done()
+                    this.$router.push("/wating-list");
+                  })
+            }
+            Nprogress.done()
         },
         updateAdmin(){
             this.$router.push({
