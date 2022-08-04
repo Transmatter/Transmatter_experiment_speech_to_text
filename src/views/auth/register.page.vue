@@ -124,8 +124,8 @@ export default {
       username: yup
         .string()
         .required("Username is required!")
-        .min(3, "Must be at least 3 characters!")
-        .max(20, "Must be maximum 20 characters"),
+        .min(4, "Username have a minimum of 4 characters")
+        .max(10, "Username have a maximum of 10 characters"),
       email: yup
         .string()
         .required("Email is required!")
@@ -134,8 +134,8 @@ export default {
       password: yup
         .string()
         .required("password is required")
-        .min(6, "Must be at least 6 character")
-        .max(40, "no longer than 40 character"),
+        .min(6, "Password have a minimum of 6 characters")
+        .max(20, "Password have a maximum of 20 characters"),
       passwordConfirmation: yup
         .string()
         .required("you need to confirm you password")
