@@ -11,12 +11,18 @@ import AdminUpdatePage from "@/views/admin/admin-update-page/admin-update.page.v
 import AdminContentFetchingPage from "@/views/admin/admin-content-fetching/admin-content-fetching.page.vue";
 import AdminContentInterFetchingPage from "@/views/admin/admin-content-fetching/admin-content-inter-fetching.page.vue";
 import Nprogress from "nprogress";
+import VIHome from "@/views/VI/Home.vue"
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: ContentPage,
+  },
+  {
+    path:"/VIHome",
+    name:"VIHome",
+    component: VIHome
   },
   {
     path: "/about",
