@@ -4,5 +4,5 @@ import router from './router'
 import store from './store'
 import './index.css'
 import 'nprogress/nprogress.css'
-
-createApp(App).use(router).use(store).mount('#app')
+import tts from 'vue-text-to-speech'
+createApp(App).use(router).use(store).use(tts).mount('#app')
