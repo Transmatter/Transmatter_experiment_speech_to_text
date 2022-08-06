@@ -8,7 +8,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@capacitor-community/text-to-speech": "^0.2.1-dev.65857f5",
     "@hennge/vue3-pagination": "^1.0.17",
     "@tailwindcss/line-clamp": "^0.4.0",
     "ag-grid-community": "27.3.0",
@@ -18,7 +17,6 @@
     "core-js": "3.6.5",
     "daisyui": "^2.20.0",
     "dayjs": "1.10.7",
-    "gtts": "^0.2.1",
     "nprogress": "0.2.0",
     "postcss": "7.0.39",
     "vee-validate": "4.5.11",
@@ -35,7 +33,6 @@
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.8",
     "tailwindcss": "^3.0.23",
-    "vite": "^2.8.0",
-    "vue-text-to-speech": "^1.0.6"
+    "vite": "^2.8.0"
   }
 }

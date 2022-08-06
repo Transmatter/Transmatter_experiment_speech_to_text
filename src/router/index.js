@@ -25,6 +25,7 @@ const routes = [
     name:"VIHome",
     component: VIHome
   },
+  //Test route
   {
     path:"/TTS/:id",
     name:"TTS",
