@@ -16,14 +16,16 @@ export default{
         const voices =  window.speechSynthesis.getVoices()
             var utterance = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.cancel();
+            let allSound = window.speechSynthesis.getVoices();
+            let thaiSound = allSound.filter((voice => voice.lang === 'th-TH'))
             setTimeout(()=>{
-                utterance.voice = window.speechSynthesis.getVoices()[16]
+                utterance.voice = thaiSound[0];
                 utterance.volume = 100
                 utterance.lang = 'th-Th';
                 window.speechSynthesis.speak(utterance);
-                console.log(utterance)
+                // console.log(utterance)
             
-            },800)
+            },1500)
             
 
 }
