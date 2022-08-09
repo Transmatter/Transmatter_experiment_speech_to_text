@@ -60,6 +60,8 @@ import ContentService from "./content.service";
 import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";
 import Nprogress from 'nprogress';
+import SC from '@/service/SpellCorrection.js'
+
 
 export default {
     name: "Content Page",
@@ -75,7 +77,9 @@ export default {
             contents: [],
             query : '',
             totalPage: 0, 
-            select : '' 
+            select : '' ,
+            spell_error: true,
+            suggestion : ""
         }
     },
     setup() {
@@ -126,12 +130,25 @@ export default {
         },
         searchContent(){
             Nprogress.start();
-            ContentService()
-            .searchContent(this.query,this.page)
-            .then((res) => {
-                this.contents = res.data.data.searchNews.content
-                    Nprogress.done();
-            });
+            if(this.spell_error){
+                SC.checkSpell(this.query).
+                then((res)=>{
+                    if(res.data.suggestion == null){
+                        this.spell_error = true
+                        searchContent()
+                    }else{
+                        console.log(res.data.suggestion)
+                    }
+                })
+            }else{
+                ContentService()
+                .searchContent(this.query,this.page)
+                .then((res) => {
+                    this.contents = res.data.data.searchNews.content
+                        Nprogress.done();
+                });
+            }
+            
         },
         getContentBySourceAndCategory(){
             if(typeof this.select == 'string'){
