@@ -3,7 +3,7 @@
         <div class="space-y-2 sm:space-y-0 sm:flex sm:-mx-1">
             <select aria-label="state" @change="getContentBySourceAndCategory" v-model="select" class="px-2 mx-2 select select-primary w-60 max-w-xs bg-primary text-base-100 lg:text-md md:text-md sm:text-xs">
                 <option disabled value="">เลือกหมวดหมู่</option>
-                <option v-for="opt in source" :value="opt" class="sm:text-sm md:text-md lg:text-md">
+                <option v-for="opt in source" :value="opt" :key="opt" class="sm:text-sm md:text-md lg:text-md">
                     {{opt.source === 'all' ? 'ทั้งหมด' : opt.source}}
                     {{opt.type === 'all' ? '' : ' : ' + opt.type}}
                 </option>
@@ -45,6 +45,8 @@ import ContentService from "./content.service";
 import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";
 import Nprogress from 'nprogress';
+import SC from '@/service/SpellCorrection.js'
+
 
 export default {
     name: "Content Page",
@@ -60,7 +62,6 @@ export default {
             contents: [],
             query : '',
             totalPage: 0, 
-            select : '',
             source : [
                 {"source": "all","type": "all"},
                 {"source":"ไทยรัฐออนไลน์","type":"all"},
@@ -71,7 +72,11 @@ export default {
                 {"source":"ไทยรัฐออนไลน์","type":"การลงทุน"},
                 {"source":"สนุกออนไลน์","type":"เอ็นเตอร์เทน"},
                 {"source":"เด็กดี","type":"ชีวิตวัยรุ่น"}
-            ]
+            ],
+
+            select : '' ,
+            spell_error: true,
+
         }
     },
     setup() {
@@ -122,12 +127,25 @@ export default {
         },
         searchContent(){
             Nprogress.start();
-            ContentService()
-            .searchContent(this.query,this.page)
-            .then((res) => {
-                this.contents = res.data.data.searchNews.content
-                    Nprogress.done();
-            });
+            if(this.spell_error){
+                SC.checkSpell(this.query).
+                then((res)=>{
+                    if(res.data.suggestion == null){
+                        this.spell_error = true
+                        searchContent()
+                    }else{
+                        console.log(res.data.suggestion)
+                    }
+                })
+            }else{
+                ContentService()
+                .searchContent(this.query,this.page)
+                .then((res) => {
+                    this.contents = res.data.data.searchNews.content
+                        Nprogress.done();
+                });
+            }
+            
         },
         getContentBySourceAndCategory(){
             if(typeof this.select == 'string'){
