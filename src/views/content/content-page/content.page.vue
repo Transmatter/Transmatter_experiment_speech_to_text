@@ -10,7 +10,7 @@
             </select>
             <div class="flex flex-col mt-8 space-y-3 sm:space-y-0 sm:flex-row sm:justify-center sm:-mx-2">
                 <input v-model="query" type="text" class="input input-bordered input-primary w-full max-w-xs mx-4" placeholder="หาข่าวอื่นๆ">
-                <button @click="searchContent()" class="px-4 py-2 btn btn-primary btn-md text-base-100 ">
+                <button @click="spellChecking()" class="px-4 py-2 btn btn-primary btn-md text-base-100 ">
                     Search
                 </button>
             </div>
@@ -46,7 +46,7 @@ import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";
 import Nprogress from 'nprogress';
 import SC from '@/service/SpellCorrection.js'
-
+import TTS from '@/service/TTSService.js'
 
 export default {
     name: "Content Page",
@@ -127,24 +127,13 @@ export default {
         },
         searchContent(){
             Nprogress.start();
-            if(this.spell_error){
-                SC.checkSpell(this.query).
-                then((res)=>{
-                    if(res.data.suggestion == null){
-                        this.spell_error = true
-                        searchContent()
-                    }else{
-                        console.log(res.data.suggestion)
-                    }
-                })
-            }else{
-                ContentService()
-                .searchContent(this.query,this.page)
-                .then((res) => {
-                    this.contents = res.data.data.searchNews.content
-                        Nprogress.done();
-                });
-            }
+            ContentService()
+            .searchContent(this.query,this.page)
+            .then((res) => {
+                this.contents = res.data.data.searchNews.content
+                    Nprogress.done();
+            });
+
             
         },
         getContentBySourceAndCategory(){
@@ -164,8 +153,19 @@ export default {
                     Nprogress.done();
                 });
             }
+        },
+        spellChecking(){
+            SC.checkSpell(this.query)
+            .then((res)=>{
+                if(res.data.suggestion==null){
+                    this.searchContent()
+                }else{
+                    const words = res.data.suggestion
+                    console.log(words)
+                    TTS.getVoice("คุณหมายถึง "+words[0]+" หรือ "+words[1]+'หรือ ค้นหาด้วยคำของคุณ')
+                }
+            })
         }
-
     }
 }
 </script>
