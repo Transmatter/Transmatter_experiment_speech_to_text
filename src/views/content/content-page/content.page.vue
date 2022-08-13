@@ -3,14 +3,14 @@
         <div class="space-y-2 sm:space-y-0 sm:flex sm:-mx-1">
             <select aria-label="state" @change="getContentBySourceAndCategory" v-model="select" class="px-2 mx-2 select select-primary w-60 max-w-xs bg-primary text-base-100 lg:text-md md:text-md sm:text-xs">
                 <option disabled value="">เลือกหมวดหมู่</option>
-                <option v-for="opt in source" :value="opt" class="sm:text-sm md:text-md lg:text-md">
+                <option v-for="opt in source" :value="opt" :key="opt" class="sm:text-sm md:text-md lg:text-md">
                     {{opt.source === 'all' ? 'ทั้งหมด' : opt.source}}
                     {{opt.type === 'all' ? '' : ' : ' + opt.type}}
                 </option>
             </select>
             <div class="flex flex-col mt-8 space-y-3 sm:space-y-0 sm:flex-row sm:justify-center sm:-mx-2">
                 <input v-model="query" type="text" class="input input-bordered input-primary w-full max-w-xs mx-4" placeholder="หาข่าวอื่นๆ">
-                <button @click="searchContent()" class="px-4 py-2 btn btn-primary btn-md text-base-100 ">
+                <button @click="spellChecking()" class="px-4 py-2 btn btn-primary btn-md text-base-100 ">
                     Search
                 </button>
             </div>
@@ -45,6 +45,8 @@ import ContentService from "./content.service";
 import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";
 import Nprogress from 'nprogress';
+import SC from '@/service/SpellCorrection.js'
+import TTS from '@/service/TTSService.js'
 
 export default {
     name: "Content Page",
@@ -60,7 +62,6 @@ export default {
             contents: [],
             query : '',
             totalPage: 0, 
-            select : '',
             source : [
                 {"source": "all","type": "all"},
                 {"source":"ไทยรัฐออนไลน์","type":"all"},
@@ -71,7 +72,11 @@ export default {
                 {"source":"ไทยรัฐออนไลน์","type":"การลงทุน"},
                 {"source":"สนุกออนไลน์","type":"เอ็นเตอร์เทน"},
                 {"source":"เด็กดี","type":"ชีวิตวัยรุ่น"}
-            ]
+            ],
+
+            select : '' ,
+            spell_error: true,
+
         }
     },
     setup() {
@@ -128,6 +133,8 @@ export default {
                 this.contents = res.data.data.searchNews.content
                     Nprogress.done();
             });
+
+            
         },
         getContentBySourceAndCategory(){
             if(typeof this.select == 'string'){
@@ -146,8 +153,19 @@ export default {
                     Nprogress.done();
                 });
             }
+        },
+        spellChecking(){
+            SC.checkSpell(this.query)
+            .then((res)=>{
+                if(res.data.suggestion==null){
+                    this.searchContent()
+                }else{
+                    const words = res.data.suggestion
+                    console.log(words)
+                    TTS.getVoice("คุณหมายถึง "+words[0]+" หรือ "+words[1]+'หรือ ค้นหาด้วยคำของคุณ')
+                }
+            })
         }
-
     }
 }
 </script>
