@@ -2,7 +2,7 @@ name: deploy on Azure server
 'on' :
   push:
     branches:
-      - production
+      - release
 
 jobs:
   docker:
