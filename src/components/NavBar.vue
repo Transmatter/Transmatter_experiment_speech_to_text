@@ -21,7 +21,7 @@ export default {
 <template>
     <div>
         <nav class="bg-white shadow">
-            <div class="max-w-7xl mx-auto px-8">
+            <div class="max-w-9xl mx-auto px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
                         <a class="flex-shrink-0" href="/">

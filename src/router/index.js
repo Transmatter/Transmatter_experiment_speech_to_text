@@ -13,24 +13,19 @@ import AdminContentInterFetchingPage from "@/views/admin/admin-content-fetching/
 import Nprogress from "nprogress";
 import VIHome from "@/views/VI/Home.vue"
 import VIContentPage from "@/views/VI/vi-content-page/content.page.vue"
-import TTS from "@/views/tts.vue"
+
+import AdminLandingPage from "@/views/admin/admin-landing-page/admin-landing-page.vue";
 
 const routes = [
   {
     path: "/admin-home",
     name: "Home",
-    component: ContentPage,
+    component: AdminLandingPage,
   },
   {
     path:"/",
     name:"VIContenPage",
-    component: VIContentPage 
-  },
-  //Test route
-  {
-    path:"/TTS/:id",
-    name:"TTS",
-    component:TTS,
+    component: VIContentPage ,
   },
   {
     path: "/about",
