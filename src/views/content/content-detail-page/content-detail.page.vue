@@ -20,9 +20,6 @@
             <ButtomVue class="invisible" buttonName="update" />
             <ButtomErrorVue @click="deleteId()" buttonName="delete" />
         </div>
-        <div>
-            <ButtomVue @click="read()" buttonName="read title" />
-        </div>
     </div>
     <div v-for="comment in contentDetail.comment" :key="comment" class="border hover:bg-green-100 lg:mx-80 my-4">
             <p class="px-6 py-2 text-sm">ผู้เขียน: {{convertAuthor(comment.author)}}</p>
@@ -66,7 +63,7 @@ export default defineComponent({
             .updateImateAlt(this.$route.params.id,this.inputAlt)
             .then(() => {
                 Nprogress.done()
-                this.$router.push('/news/'+this.$route.params.id);
+                this.$router.push('/content/'+this.$route.params.id);
             }).catch(error => {
                 console.log(error);
             })

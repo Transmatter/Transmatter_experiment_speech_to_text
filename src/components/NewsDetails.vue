@@ -3,7 +3,7 @@
             <p class="px-6 py-2 text-sm">ผู้เขียน: {{convertAuthor(content.author)}}</p>
             <p class="px-6 py-1 text-sm">{{content.type}}</p>
             <p class="px-6 py-6 text-xl font-bold hover:text-green-800">
-                <router-link :to="'/news/' + content.id">
+                <router-link :to="'/content/' + content.id">
                     {{content.title}}
                 </router-link>
             </p>

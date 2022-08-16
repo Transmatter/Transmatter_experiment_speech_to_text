@@ -48,13 +48,13 @@ const routes = [
     component : AdminWatingListPage
   },
   {
-    path: "/news-without-alt",
-    name: "News Without Alt",
+    path: "/content-without-alt",
+    name: "X Content",
     component : AdminEmptyAltPage,
   },
   {
-    path: "/news/:id",
-    name: "News Details",
+    path: "/content/:id",
+    name: "Content Details",
     component: ContentDetail,
   },
   {

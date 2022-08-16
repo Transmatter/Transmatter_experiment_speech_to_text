@@ -8,9 +8,8 @@ export const useViewModel = () => {
     const pages = ref()
     const allContent = ref()
     const incomplateContent = ref()
-    const thaiRath = ref()
-    const sanook = ref()
-    const dek_d = ref()
+    const local_content = ref()
+    const inter_content = ref()
     const isLoading = ref(false)
 
     const fetchContent = () => {
@@ -25,20 +24,15 @@ export const useViewModel = () => {
             incomplateContent.value = res.data.data.getAllEmptyAltNews.totalElements
         })
         AdminLandingPageService()
-        .getContentBySourceAndCategory("ไทยรัฐออนไลน์","ทั้งหมด")
+        .getContentType("LOCAL_CONTENT")
         .then((res) => {
-            thaiRath.value = res.data.data.getNewsBySourceAndType.totalElements
-        })
+            local_content.value = res.data.data.getContentByType.totalElements
+        });
         AdminLandingPageService()
-        .getContentBySourceAndCategory("สนุกออนไลน์","ทั้งหมด")
+        .getContentType("INTER_CONTENT")
         .then((res) => {
-            sanook.value = res.data.data.getNewsBySourceAndType.totalElements
-        })
-        AdminLandingPageService()
-        .getContentBySourceAndCategory("เด็กดี","ทั้งหมด")
-        .then((res) => {
-            dek_d.value = res.data.data.getNewsBySourceAndType.totalElements
-        })
+            inter_content.value = res.data.data.getContentByType.totalElements
+        });
         isLoading.value = false
     }
     
@@ -54,8 +48,7 @@ export const useViewModel = () => {
         isLoading,
         allContent,
         incomplateContent,
-        thaiRath,
-        sanook,
-        dek_d,
+        local_content,
+        inter_content,
     }
 }

@@ -40,14 +40,12 @@ export default {
                                 <span v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'">
                                     <LinkButton path="Home"/>
                                     <LinkButton path="Wating List" />
-                                    <LinkButton path="News Without Alt" />
-                                    <LinkButton path="Local Fetching" />
-                                    <LinkButton path="Inter Fetching" />
+                                    <LinkButton path="X Content" />
                                     <LinkButton path="About"/>
                                 </span>
                                 <span v-else-if="this.$store.getters.getRole == 'ROLE_ADMIN' && this.$store.getters.getStatus == 'VERIFIED'">
                                     <LinkButton path="Home"/>
-                                    <LinkButton path="News Without Alt" />
+                                    <LinkButton path="X Content" />
                                     <LinkButton path="About"/>
                                 </span>
                                 <span v-else>
