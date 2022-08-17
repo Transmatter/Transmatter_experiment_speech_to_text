@@ -25,7 +25,7 @@ export default {
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
                         <a class="flex-shrink-0" href="/">
-                             <h1 class="text-primary text-xl font-bold normal-case">
+                            <h1 class="text-primary text-xl font-bold normal-case">
                                 Transmatter Platform 
                                 <sup class="text-xs" v-if="this.$store.getters.getRole == 'ROLE_ADMIN'">
                                     Admin
@@ -37,18 +37,7 @@ export default {
                         </a>
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
-                                <span v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'">
-                                    <LinkButton path="Home"/>
-                                    <LinkButton path="Wating List" />
-                                    <LinkButton path="X Content" />
-                                    <LinkButton path="About"/>
-                                </span>
-                                <span v-else-if="this.$store.getters.getRole == 'ROLE_ADMIN' && this.$store.getters.getStatus == 'VERIFIED'">
-                                    <LinkButton path="Home"/>
-                                    <LinkButton path="X Content" />
-                                    <LinkButton path="About"/>
-                                </span>
-                                <span v-else>
+                                <span>
                                     <LinkButton path="Home"/>
                                     <LinkButton path="About"/>
                                 </span>

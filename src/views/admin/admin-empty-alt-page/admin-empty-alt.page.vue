@@ -1,9 +1,9 @@
 <template>
     <div class="flex justify-center">
-        <h1 class="my-6 text-3xl font-bold">News that have not Alternative text in the images</h1>
+        <h1 class="my-6 text-3xl font-bold">Content that need to be approve by admin</h1>
     </div>
     <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
-        <table class="border">
+        <table class="table table-compact border">
             <thead class="border">
                 <tr>
                     <th class="px-7 py-3 text-center">No.</th>
@@ -15,13 +15,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in contents" @click="seeDetail(item.id)" class="hover:bg-green-50 hover:underline cursor-pointer">
+                <tr v-for="(item, index) in contents" @click="seeDetail(item.id)" class="hover:bg-green-300 hover:underline cursor-pointer">
                     <td class="px-7 text-center py-3">{{index + 1}}</td>
-                    <td class="px-7 text-left">{{item.title.substring(0,10) + "..."}}</td>
-                    <td class="px-7 text-left">{{item.source.substring(0,10) + "..."}}</td>
-                    <td class="px-7 text-left">{{item.category.substring(0,10) + "..."}}</td>
+                    <td class="px-7 text-left">{{item.title.substring(0,15) + "..."}}</td>
+                    <td class="px-7 text-left">{{item.source}}</td>
+                    <td class="px-7 text-left">{{item.category.substring(0,15) + "..."}}</td>
                     <td class="px-7 text-left">{{item.author.substring(0,10) + "..."}}</td>
-                    <td class="px-7 text-left">{{getDate(item.public_date).substring(0,10) + "..."}}</td>
+                    <td class="px-7 text-left">{{getDate(item.public_date)}}</td>
                 </tr>
             </tbody>
         </table>
