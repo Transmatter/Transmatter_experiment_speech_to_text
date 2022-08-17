@@ -21,7 +21,7 @@ export default {
 <template>
     <div>
         <nav class="bg-white shadow">
-            <div class="max-w-7xl mx-auto px-8">
+            <div class="max-w-9xl mx-auto px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
                         <a class="flex-shrink-0" href="/">
@@ -40,14 +40,12 @@ export default {
                                 <span v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'">
                                     <LinkButton path="Home"/>
                                     <LinkButton path="Wating List" />
-                                    <LinkButton path="News Without Alt" />
-                                    <LinkButton path="Local Fetching" />
-                                    <LinkButton path="Inter Fetching" />
+                                    <LinkButton path="X Content" />
                                     <LinkButton path="About"/>
                                 </span>
                                 <span v-else-if="this.$store.getters.getRole == 'ROLE_ADMIN' && this.$store.getters.getStatus == 'VERIFIED'">
                                     <LinkButton path="Home"/>
-                                    <LinkButton path="News Without Alt" />
+                                    <LinkButton path="X Content" />
                                     <LinkButton path="About"/>
                                 </span>
                                 <span v-else>
