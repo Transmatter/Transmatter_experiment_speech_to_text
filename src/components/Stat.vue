@@ -1,8 +1,7 @@
 <template>
-    <div class="stat">
+    <div class="stat hover:shadow-2xl" @click="getDetails()">
         <div class="stat-title">{{title}}</div>
         <div class="stat-value">{{content}}</div>
-        <div class="stat-desc">{{text}}</div>
     </div>
 </template>
 
@@ -20,6 +19,19 @@ export default {
         text : {
             type: String,
             default: 'go'
+        }
+    },
+    methods: {
+        getDetails() {
+            console.log(`${this.text}`);
+            // this.$router.push({
+            //     name: 'admin-landing-page-details',
+            //     params: {
+            //         title: this.title,
+            //         content: this.content,
+            //         text: this.text
+            //     }
+            // });
         }
     }
 }

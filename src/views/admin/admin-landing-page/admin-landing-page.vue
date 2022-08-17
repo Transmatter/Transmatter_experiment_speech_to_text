@@ -1,21 +1,22 @@
 <template>
     <div class="flex flex-col w-full">
         <Hero/>
-        <div v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'" class="divider">Content Fetching Feature</div>
-        <div v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'" class="flex flex-row w-full lg:flex-row">
-            <div class="flex flex-row w-full lg:flex-row justify-center">
-                <Card title="Fetching Local Content" content="" />
-                <Card title="Fetching Inter Content" content="" />
-            </div>
-        </div>
         <div class="divider">Content Status on Platform</div>
         <div class="flex flex-row w-full lg:flex-row">
             <div class="flex flex-row w-full lg:flex-row stats shadow">
-                <Stat title="All Content" :content="allContent" />
-                <Stat title="❌ Content" :content="incomplateContent" />
-                <Stat title="✔ Content" :content="allContent - incomplateContent" />
-                <Stat title="Local Content" :content="local_content" />
-                <Stat title="Inter Content" :content="inter_content" />
+                <Stat title="All Content" :content="allContent" text="all content"/>
+                <Stat title="❌ Content" :content="incomplateContent" text="not approve content"/>
+                <Stat title="✔ Content" :content="allContent - incomplateContent" text="approve content"/>
+                <Stat title="Local Content" :content="local_content" text="local content"/>
+                <Stat title="Inter Content" :content="inter_content" text="inter content"/>
+            </div>
+        </div>
+        <div class="divider">Features</div>
+        <div class="flex flex-row w-full lg:flex-row">
+            <div class="flex flex-row w-full lg:flex-row justify-start">
+                <Card v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'" title="Fetching Local Content" content="content from sanook thairath dek-d" page="Local Fetching"/>
+                <Card v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'" title="Fetching Inter Content" content="content from news api" page="Inter Fetching"/>
+                <Card title="Update Content" content="update a content" page="X Content"/>
             </div>
         </div>
     </div>
@@ -29,11 +30,11 @@ import Stat from '@/components/Stat.vue';
 export default {
     name: 'Admin Landing Page',
     components: {
-        Drawer,
-        Card,
-        Hero,
-        Stat
-    },
+    Drawer,
+    Card,
+    Hero,
+    Stat,
+},
     data() {
         return {
             page: 1,
