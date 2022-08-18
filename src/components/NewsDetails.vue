@@ -14,6 +14,7 @@
 
 <script>
 import dayjs from 'dayjs';
+import 'dayjs/locale/th'
 export default {
     props: {
         contents: {
