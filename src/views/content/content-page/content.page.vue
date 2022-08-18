@@ -9,7 +9,7 @@
                 </option>
             </select>
             <div class="flex flex-col mt-8 space-y-3 sm:space-y-0 sm:flex-row sm:justify-center sm:-mx-2">
-                <input v-model="query" type="text" class="input input-bordered input-primary w-full max-w-xs mx-4" placeholder="หาข่าวอื่นๆ">
+                <input id="searchBox" v-model="query" type="text" class="input input-bordered input-primary w-full max-w-xs mx-4" placeholder="หาข่าวอื่นๆ">
                 <button @click="spellChecking()" class="px-4 py-2 btn btn-primary btn-md text-base-100 ">
                     Search
                 </button>

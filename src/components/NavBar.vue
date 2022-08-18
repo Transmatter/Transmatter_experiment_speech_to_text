@@ -3,6 +3,7 @@ import LinkButton from '@/widget/LinkButton.vue';
 import ProfileIcon from '@/widget/ProfileIcon.vue';
 import Buttom from '@/widget/Buttom.vue';
 import KeyBoardEvent from './KeyBoardEvent.vue'
+import content from '@/views/VI/vi-content-page/content.page.vue'
 export default {
     
     components: {
@@ -10,7 +11,6 @@ export default {
     ProfileIcon,
     Buttom,
     KeyBoardEvent,
-    KeyBoardEvent
 },
     methods:{
         mockLogin(){
@@ -21,9 +21,27 @@ export default {
         },
         handleKeyPress: function (e) {
         const keyCode = String(e.keyCode || e.code || e.keyIdentifier);
-        console.log(keyCode)
         if(keyCode == '37'){
-            history.back()
+            window.history.back()
+        }else if(keyCode == '39'){
+            window.history.forward()
+        }else if(keyCode=='32'){
+            document.getElementById("searchBox").focus();
+        }else if(keyCode=='13'){
+            document.getElementById("searchButt").click();
+        }else if(keyCode== '90'){
+            if(document.getElementById("sugg1")){
+                document.getElementById("sugg1").click();
+            }
+            
+        }else if(keyCode=='88'){
+            if(document.getElementById("sugg2")){
+                document.getElementById("sugg2").click();
+            }
+        }else if(keyCode=='67'){
+             if(document.getElementById("sugg2")){
+                document.getElementById("sugg2").click();
+            }
         }
 
     }
