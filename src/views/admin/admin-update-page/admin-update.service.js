@@ -1,4 +1,4 @@
-import graphqlClient from '@/service/GraphQlClient'
+import graphqlClient from '@/service/GraphQLClient'
 
 const adminUpdateService = () => {
     const updateAdmin = (id,user) => {

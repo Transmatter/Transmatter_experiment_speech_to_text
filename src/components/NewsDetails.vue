@@ -1,19 +1,20 @@
 <template>
         <div v-for="content in contents" :key="content.id" class="border hover:bg-green-100 lg:mx-80">
             <p class="px-6 py-2 text-sm">ผู้เขียน: {{convertAuthor(content.author)}}</p>
-            <p class="px-6 py-1 text-sm">{{content.type}}</p>
+            <p class="px-6 py-1 text-sm">{{content.category}}</p>
             <p class="px-6 py-6 text-xl font-bold hover:text-green-800">
-                <router-link :to="'/news/' + content.id">
+                <router-link :to="'/content/' + content.id">
                     {{content.title}}
                 </router-link>
             </p>
-            <p class="px-6 py-2 text-sm line-clamp-3 indent-8">{{content.content}}</p>
+            <p class="px-6 text-sm line-clamp-3 indent-8">{{content.content}}</p>
             <p class="px-6 py-2 text-sm flex justify-end">{{getDate(content.public_date)}}</p>
         </div>
 </template>
 
 <script>
 import dayjs from 'dayjs';
+import 'dayjs/locale/th'
 export default {
     props: {
         contents: {

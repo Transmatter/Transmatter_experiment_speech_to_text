@@ -34,11 +34,13 @@ export default {
 <KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent>
     <div>
         <nav class="bg-white shadow">
-            <div class="max-w-7xl mx-auto px-8">
+            <div class="max-w-9xl mx-auto px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
+
                         <a class="flex-shrink-0" href="/" @click.left="handleKeyPress">
                              <h1 class="text-primary text-xl font-bold normal-case">
+
                                 Transmatter Platform 
                                 <sup class="text-xs" v-if="this.$store.getters.getRole == 'ROLE_ADMIN'">
                                     Admin
@@ -50,20 +52,7 @@ export default {
                         </a>
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
-                                <span v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'">
-                                    <LinkButton path="Home"/>
-                                    <LinkButton path="Wating List" />
-                                    <LinkButton path="News Without Alt" />
-                                    <LinkButton path="Local Fetching" />
-                                    <LinkButton path="Inter Fetching" />
-                                    <LinkButton path="About"/>
-                                </span>
-                                <span v-else-if="this.$store.getters.getRole == 'ROLE_ADMIN' && this.$store.getters.getStatus == 'VERIFIED'">
-                                    <LinkButton path="Home"/>
-                                    <LinkButton path="News Without Alt" />
-                                    <LinkButton path="About"/>
-                                </span>
-                                <span v-else>
+                                <span>
                                     <LinkButton path="Home"/>
                                     <LinkButton path="About"/>
                                 </span>

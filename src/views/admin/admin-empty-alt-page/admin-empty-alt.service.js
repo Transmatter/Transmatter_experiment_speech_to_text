@@ -10,11 +10,10 @@ const AdminEmptyAltService = () => {
                 totalElements
                 content { 
                     id
-                    type
                     source
+                    category
                     title
                     author
-                    content
                     public_date
                 }
             }
@@ -26,7 +25,7 @@ const AdminEmptyAltService = () => {
             variables: {
             	filter: {
 		            page: page,
-		            size: 3
+		            size: 10
 	            }
             }
         }
