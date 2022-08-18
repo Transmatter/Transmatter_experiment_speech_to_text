@@ -68,15 +68,16 @@ const ContentService = () => {
 
     const getNewsBySourceAndCategory = (source,category,page) => {
         const query = `
-        query($source:String,$type:String,$filter:PageFilter){
-            getNewsBySourceAndType(source:$source,type:$type,filter:$filter){
+        query ($source: String, $type: String, $filter: PageFilter) {
+            getOnlyApprovedContentBySource(source: $source, category: $type, filter: $filter) {
                 number
                 totalPages
                 totalElements
-                content { 
+                content {
                     id
                     type
                     category
+                    content
                     source
                     title
                     author
@@ -103,19 +104,19 @@ const ContentService = () => {
     const searchContent = (keyword,page) => {
         const query = `
         query($title:String,$filter:PageFilter){
-            searchNews(title:$title,filter:$filter){
+            searchOnlyApprovedContent(title:$title,filter:$filter){
                 number
                 totalPages
                 totalElements
                 content { 
                     id
                     type
-                    category
                     source
                     content
                     title
                     author
                     public_date
+                    approveStatus
                 }
             }
         }
@@ -124,9 +125,9 @@ const ContentService = () => {
             query: query,
             variables : {
                 title: keyword,
-            	filter: {
+                filter: {
 		            page: page,
-		            size: 5
+		            size: 3
 	            }
             }
         }
