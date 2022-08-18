@@ -73,10 +73,8 @@ export default {
                 {"source":"สนุกออนไลน์","type":"เอ็นเตอร์เทน"},
                 {"source":"เด็กดี","type":"ชีวิตวัยรุ่น"}
             ],
-
             select : '' ,
             spell_error: true,
-
         }
     },
     setup() {

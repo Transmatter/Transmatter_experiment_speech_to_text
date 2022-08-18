@@ -19,20 +19,29 @@
     <div v-if="contents.length != 0">
         <NewsDetailsVue :contents="contents"/>
         <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-80">
-            <div class="p-1">
+            <div v-if="this.select.source != undefined" class="p-1">
+                <v-pagination 
+                v-model="page"
+                :pages="pages" 
+                :range-size="1"
+                activeColor="#bbf7d0"
+                @update:modelValue="getContentBySourceAndCategory"
+                />
+            </div>
+            <div v-else class="p-1">
                 <v-pagination 
                 v-model="page"
                 :pages="pages" 
                 :range-size="1" 
                 activeColor="#bbf7d0"
-                @update:modelValue="getContentBySourceAndCategory"
-            />
+                @update:modelValue="searchContent"
+                />
             </div>
         </div>
     </div>
     <div v-else>
         <img class="mx-auto" src="../../../assets/not_found_image.png" alt="not found icon">
-        <p class="text-3xl font-bold text-center">Opp! Something Went Wrong!!</p>
+        <p class="text-3xl font-bold text-center">Nothing Here...</p>
     </div>
 
 </template>
@@ -70,13 +79,11 @@ export default {
                 {"source":"ไทยรัฐออนไลน์","type":"นโยบาย"},
                 {"source":"ไทยรัฐออนไลน์","type":"การตลาด"},
                 {"source":"ไทยรัฐออนไลน์","type":"การลงทุน"},
-                {"source":"สนุกออนไลน์","type":"เอ็นเตอร์เทน"},
+                {"source":"สนุกออนไลน์","type":"ทั้งหมด"},
                 {"source":"เด็กดี","type":"ชีวิตวัยรุ่น"}
             ],
-
             select : '' ,
             spell_error: true,
-
         }
     },
     setup() {
@@ -100,8 +107,8 @@ export default {
             ContentService()
                 .getAllContents(this.page)
                 .then((res) => {
-                    this.contents = res.data.data.getAllContents.content
-                    this.pages = res.data.data.getAllContents.totalPages
+                    this.contents = res.data.data.getAllApprovedContent.content
+                    this.pages = res.data.data.getAllApprovedContent.totalPages
                     Nprogress.done();
             });
         },
@@ -130,26 +137,26 @@ export default {
             ContentService()
             .searchContent(this.query,this.page)
             .then((res) => {
-                this.contents = res.data.data.searchNews.content
-                    Nprogress.done();
+                this.contents = res.data.data.searchOnlyApprovedContent.content
+                this.pages = res.data.data.searchOnlyApprovedContent.totalPages
+                Nprogress.done();
             });
 
             
         },
         getContentBySourceAndCategory(){
             if(typeof this.select == 'string'){
-                this.select = JSON.parse(this.select)
+                this.select = this.select
             }
             if(this.select.source == 'all' && this.select.type == 'all'){
                 this.getAllContents();
-            } else if(this.select.source === 'ไทยรัฐออนไลน์' && this.select.type === 'all'){
-                this.getContent('ไทยรัฐออนไลน์');
             } else {
                 Nprogress.start();
                 ContentService()
-                .getNewsBySourceAndCategory(this.select.source,this.select.type,this.page)
+                .getNewsBySourceAndCategory(this.select.source,this.select.type === 'all' ? 'ทั้งหมด' : this.select.type ,this.page)
                 .then((res) => {
-                    this.contents = res.data.data.getNewsBySourceAndType.content
+                    this.contents = res.data.data.getOnlyApprovedContentBySource.content
+                    this.pages = res.data.data.getOnlyApprovedContentBySource.totalPages
                     Nprogress.done();
                 });
             }
@@ -164,6 +171,10 @@ export default {
                     console.log(words)
                     TTS.getVoice("คุณหมายถึง "+words[0]+" หรือ "+words[1]+'หรือ ค้นหาด้วยคำของคุณ')
                 }
+            })
+            .catch((err)=>{
+                console.log(err)
+                this.searchContent()
             })
         }
     }
