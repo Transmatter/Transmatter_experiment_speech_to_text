@@ -2,29 +2,42 @@
 import LinkButton from '@/widget/LinkButton.vue';
 import ProfileIcon from '@/widget/ProfileIcon.vue';
 import Buttom from '@/widget/Buttom.vue';
+import KeyBoardEvent from './KeyBoardEvent.vue'
 export default {
+    
     components: {
-        LinkButton,
-        ProfileIcon,
-        Buttom
-    },
+    LinkButton,
+    ProfileIcon,
+    Buttom,
+    KeyBoardEvent,
+    KeyBoardEvent
+},
     methods:{
         mockLogin(){
             this.$router.push('/login');
         },
         mockRegister(){
             this.$router.push('/register');
+        },
+        handleKeyPress: function (e) {
+        const keyCode = String(e.keyCode || e.code || e.keyIdentifier);
+        console.log(keyCode)
+        if(keyCode == '37'){
+            history.back()
         }
+
+    }
     } 
 };
 </script>
 <template>
+<KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent>
     <div>
         <nav class="bg-white shadow">
             <div class="max-w-7xl mx-auto px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
-                        <a class="flex-shrink-0" href="/">
+                        <a class="flex-shrink-0" href="/" @click.left="handleKeyPress">
                              <h1 class="text-primary text-xl font-bold normal-case">
                                 Transmatter Platform 
                                 <sup class="text-xs" v-if="this.$store.getters.getRole == 'ROLE_ADMIN'">

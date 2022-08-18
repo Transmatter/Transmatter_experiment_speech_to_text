@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div v-if="contents.length != 0">
+    <div v-if="contents.length != 0 && suggestion.length == 0">
         <NewsDetailsVue :contents="contents"/>
         <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-80">
             <div class="p-1">
@@ -30,9 +30,21 @@
             </div>
         </div>
     </div>
-    <div v-else>
+    <div v-else-if="suggestion.length == 0">
         <img class="mx-auto" src="../../../assets/not_found_image.png" alt="not found icon">
         <p class="text-3xl font-bold text-center">Opp! Something Went Wrong!!</p>
+    </div>
+    <div v-if="suggestion.length != 0">
+        <div class="drawer-side">
+    <label for="my-drawer-2" class="drawer-overlay"></label> 
+    <ul class="menu p-4 h-4/5drawer-end overflow-y-auto w-4/5 bg-base-100 text-base-content">
+      <!-- Sidebar content here -->
+      <li @click="searchContent(this.suggestion[0])"><a>{{this.suggestion[0]}}</a></li>
+      <li @click="searchContent(this.suggestion[1])" ><a>{{this.suggestion[1]}}</a></li>
+       <li @click="searchContent(this.query)"><a>{{this.query}}</a></li>
+    </ul>
+  
+  </div>
     </div>
 
 </template>
@@ -76,7 +88,7 @@ export default {
 
             select : '' ,
             spell_error: true,
-
+            suggestion:[]
         }
     },
     setup() {
@@ -125,13 +137,16 @@ export default {
                 });
             }
         },
-        searchContent(){
+        searchContent(keyword=this.query){
+            console.log(keyword)
             Nprogress.start();
             ContentService()
-            .searchContent(this.query,this.page)
+            .searchContent(keyword,this.page)
             .then((res) => {
                 this.contents = res.data.data.searchNews.content
                     Nprogress.done();
+                    this.query = keyword
+                    this.suggestion = []
             });
 
             
@@ -161,6 +176,7 @@ export default {
                     this.searchContent()
                 }else{
                     const words = res.data.suggestion
+                    this.suggestion = res.data.suggestion
                     console.log(words)
                     TTS.getVoice("คุณหมายถึง "+words[0]+" หรือ "+words[1]+'หรือ ค้นหาด้วยคำของคุณ')
                 }
