@@ -2,30 +2,62 @@
 import LinkButton from '@/widget/LinkButton.vue';
 import ProfileIcon from '@/widget/ProfileIcon.vue';
 import Buttom from '@/widget/Buttom.vue';
+import KeyBoardEvent from './KeyBoardEvent.vue'
 export default {
+    
     components: {
-        LinkButton,
-        ProfileIcon,
-        Buttom
-    },
+    LinkButton,
+    ProfileIcon,
+    Buttom,
+    KeyBoardEvent,
+},
     methods:{
         mockLogin(){
             this.$router.push('/login');
         },
         mockRegister(){
             this.$router.push('/register');
+        },
+        handleKeyPress: function (e) {
+        const keyCode = String(e.keyCode || e.code || e.keyIdentifier);
+        if(keyCode == '37'){
+            window.history.back()
+        }else if(keyCode == '39'){
+            window.history.forward()
+        }else if(keyCode=='32'){
+            document.getElementById("searchBox").focus();
+        }else if(keyCode=='13'){
+            document.getElementById("searchButt").click();
+        }else if(keyCode== '90'){
+            if(document.getElementById("sugg1")){
+                document.getElementById("sugg1").click();
+            }
+            
+        }else if(keyCode=='88'){
+            if(document.getElementById("sugg2")){
+                document.getElementById("sugg2").click();
+            }
+        }else if(keyCode=='67'){
+             if(document.getElementById("sugg2")){
+                document.getElementById("sugg2").click();
+            }
         }
+
+    }
     } 
 };
 </script>
 <template>
+<KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent>
     <div>
         <nav class="bg-white shadow">
             <div class="max-w-9xl mx-auto px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
-                        <a class="flex-shrink-0" href="/">
-                            <h1 class="text-primary text-xl font-bold normal-case">
+
+                        <a class="flex-shrink-0" href="/" @click.left="handleKeyPress">
+                             <h1 class="text-primary text-xl font-bold normal-case">
+
                                 Transmatter Platform 
                                 <sup class="text-xs" v-if="this.$store.getters.getRole == 'ROLE_ADMIN'">
                                     Admin
