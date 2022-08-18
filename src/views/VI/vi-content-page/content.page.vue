@@ -1,4 +1,5 @@
 <template>
+<KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent>
     <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
         <div class="space-y-2 sm:space-y-0 sm:flex sm:-mx-1">
             <select aria-label="state" @change="getContentBySourceAndCategory" v-model="select" class="px-2 mx-2 select select-primary w-60 max-w-xs bg-primary text-base-100 lg:text-md md:text-md sm:text-xs">

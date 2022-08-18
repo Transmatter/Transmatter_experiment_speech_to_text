@@ -3,7 +3,6 @@ import LinkButton from '@/widget/LinkButton.vue';
 import ProfileIcon from '@/widget/ProfileIcon.vue';
 import Buttom from '@/widget/Buttom.vue';
 import KeyBoardEvent from './KeyBoardEvent.vue'
-import content from '@/views/VI/vi-content-page/content.page.vue'
 export default {
     
     components: {
