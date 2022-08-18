@@ -12,7 +12,7 @@ const ContentDetailSerivce = () => {
                 author
                 title
                 content
-                images { url alt }
+                images { url alt verifiedDate verifiedBy verifyStatus}
                 public_date
                 comment { author content time image_urls }
             }
@@ -55,7 +55,7 @@ const ContentDetailSerivce = () => {
                 title
                 content
                 public_date
-                images { url alt }
+                images { url alt verifiedDate verifiedBy verifyStatus}
             }
         }
         `;
