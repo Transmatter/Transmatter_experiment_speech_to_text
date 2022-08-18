@@ -9,7 +9,8 @@ const ContentService = () => {
                 totalElements
                 content { 
                     id
-                    type
+                    category
+                    content
                     source
                     title
                     author
@@ -41,6 +42,7 @@ const ContentService = () => {
                 content { 
                     id
                     type
+                    category
                     source
                     content
                     title
@@ -72,12 +74,13 @@ const ContentService = () => {
                 totalPages
                 totalElements
                 content { 
-                  id
-              type
-                  source
-                  title
-              author
-                  public_date
+                    id
+                    type
+                    category
+                    source
+                    title
+                    author
+                    public_date
                 }
             }
         }
@@ -107,6 +110,7 @@ const ContentService = () => {
                 content { 
                     id
                     type
+                    category
                     source
                     content
                     title

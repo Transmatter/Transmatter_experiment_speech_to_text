@@ -14,9 +14,10 @@
         <div class="divider">Features</div>
         <div class="flex flex-row w-full lg:flex-row">
             <div class="flex flex-row w-full lg:flex-row justify-start">
-                <Card v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'" title="Fetching Local Content" content="content from sanook thairath dek-d" page="Local Fetching"/>
-                <Card v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'" title="Fetching Inter Content" content="content from news api" page="Inter Fetching"/>
-                <Card title="Update Content" content="update a content" page="X Content"/>
+                <Card v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'" title="Waiting List" content="Admin in Wating List" page="Wating List"/>
+                <Card v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'" title="Fetching Local Content" content="sanook Thairath Dek-d" page="Local Fetching"/>
+                <Card v-if="this.$store.getters.getRole == 'ROLE_SUPER_ADMIN'" title="Fetching Inter Content" content="News api" page="Inter Fetching"/>
+                <Card title="update Content" content="update a content" page="X Content"/>
             </div>
         </div>
     </div>
