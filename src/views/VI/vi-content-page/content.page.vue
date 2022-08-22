@@ -20,7 +20,7 @@
     <div  v-if="contents.length != 0 && suggestion.length == 0">
         <NewsDetailsVue :contents="contents"/>
         <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-80">
-            <div v-if="this.select.source != undefined" class="p-1">
+            <!-- <div v-if="this.select.source != undefined" class="p-1">
                 <v-pagination 
                 v-model="page"
                 :pages="pages" 
@@ -37,10 +37,15 @@
                 activeColor="#bbf7d0"
                 @update:modelValue="searchContent"
                 />
+            </div> -->
+            <div>
+                <button v-if="totalElements!=contents.length && !isload" @click="loadmore" class="btn btn-block btn-primary text-base-100">load more</button>
+                <button v-else-if="isload" class="btn btn-block btn-primary text-base-100 loading"></button>
+                <button v-else-if="totalElements==contents.length" class="btn btn-block btn-disabled text-base-100">load more</button>
             </div>
         </div>
     </div>
-   <div v-else-if="suggestion.length == 0">
+    <div v-else-if="suggestion.length == 0">
         <img class="mx-auto" src="../../../assets/not_found_image.png" alt="not found icon">
         <p class="text-3xl font-bold text-center">Nothing Here...</p>
     </div>
@@ -48,13 +53,12 @@
         <div class="drawer-side">
     <label for="my-drawer-2" class="drawer-overlay"></label> 
     <ul class="menu p-4 h-4/5drawer-end overflow-y-auto w-4/5 bg-base-100 text-base-content">
-      <!-- Sidebar content here -->
-      <li id="sugg1" @click="searchContent(this.suggestion[0])"><a>{{this.suggestion[0]}}</a></li>
-      <li id="sugg2" @click="searchContent(this.suggestion[1])" ><a>{{this.suggestion[1]}}</a></li>
-       <li id="sugg3" @click="searchContent(this.query)"><a>{{this.query}}</a></li>
+        <!-- Sidebar content here -->
+        <li id="sugg1" @click="searchContent(this.suggestion[0])"><a>{{this.suggestion[0]}}</a></li>
+        <li id="sugg2" @click="searchContent(this.suggestion[1])" ><a>{{this.suggestion[1]}}</a></li>
+        <li id="sugg3" @click="searchContent(this.query)"><a>{{this.query}}</a></li>
     </ul>
-  
-  </div>
+    </div>
     </div>
 
 </template>
@@ -82,9 +86,10 @@ export default {
         return {
             page : 1,
             pages : 1,
+            size: 3,
             contents: [],
             query : '',
-            totalPage: 0, 
+            totalElements: 0, 
             source : [
                 {"source": "all","type": "all"},
                 {"source":"ไทยรัฐออนไลน์","type":"all"},
@@ -98,7 +103,8 @@ export default {
             ],
             select : '' ,
             spell_error: true,
-            suggestion:[]
+            suggestion:[],
+            isload: false
         }
     },
     setup() {
@@ -120,34 +126,15 @@ export default {
         getAllContents(){
             Nprogress.start();
             ContentService()
-                .getAllContents(this.page)
+                .getAllContents(this.page,this.size)
                 .then((res) => {
                     this.contents = res.data.data.getAllApprovedContent.content
-                    this.pages = res.data.data.getAllApprovedContent.totalPages
+                    this.totalElements = res.data.data.getAllApprovedContent.totalElements
+                    this.isload = false;
                     Nprogress.done();
             });
         },
-        getContent(value) {
-            Nprogress.start();
-            if(value==="all"){
-                ContentService()
-                .getAllContents(this.page)
-                .then((res) => {
-                    this.contents = res.data.data.getAllContents.content
-                    this.pages = res.data.data.getAllContents.totalPages
-                    Nprogress.done();
-                });
-            } else {
-                ContentService()
-                .getContents(value,this.page)
-                .then((res) => {
-                    this.contents = res.data.data.getNewsBySource.content
-                    this.pages = res.data.data.getNewsBySource.totalPages
-                    Nprogress.done();
-                });
-            }
-        },
-           searchContent(keyword=this.query){
+        searchContent(keyword=this.query){
             console.log(keyword)
             Nprogress.start();
             ContentService()
@@ -162,24 +149,7 @@ export default {
 
             
         },
-        getContentBySourceAndCategory(){
-            if(typeof this.select == 'string'){
-                this.select = this.select
-            }
-            if(this.select.source == 'all' && this.select.type == 'all'){
-                this.getAllContents();
-            } else {
-                Nprogress.start();
-                ContentService()
-                .getNewsBySourceAndCategory(this.select.source,this.select.type === 'all' ? 'ทั้งหมด' : this.select.type ,this.page)
-                .then((res) => {
-                    this.contents = res.data.data.getOnlyApprovedContentBySource.content
-                    this.pages = res.data.data.getOnlyApprovedContentBySource.totalPages
-                    Nprogress.done();
-                });
-            }
-        },
-           spellChecking(){
+        spellChecking(){
             SC.checkSpell(this.query)
             .then((res)=>{
                 if(res.data.suggestion==null){
@@ -195,6 +165,28 @@ export default {
                 console.log(err)
                 this.searchContent()
             })
+        },
+        loadmore(){
+            Nprogress.start();
+            this.size+=3;
+            this.isload = true;
+            console.log(this.select)
+            if(typeof this.select == 'string'){
+                this.getAllContents();
+            }
+            if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
+                this.getAllContents();
+            } else {
+                Nprogress.start();
+                ContentService()
+                .getNewsBySourceAndCategory(this.select.source,this.select.type === 'all' ? 'ทั้งหมด' : this.select.type ,this.page,this.size)
+                .then((res) => {
+                    this.contents = res.data.data.getOnlyApprovedContentBySource.content
+                    this.totalElements = res.data.data.getOnlyApprovedContentBySource.totalElements
+                    this.isload = false;
+                    Nprogress.done();
+                });
+            }
         }
     },
 }

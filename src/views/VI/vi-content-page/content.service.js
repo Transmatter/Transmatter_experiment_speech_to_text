@@ -1,7 +1,7 @@
 import graphqlClient from "@/service/GraphQLClient";
 
 const ContentService = () => {
-    const getAllContents = (page=1) => {
+    const getAllContents = (page=1,size=3) => {
         const query = `query($filter:PageFilter) {
             getAllApprovedContent(filter:$filter){
                 number
@@ -25,7 +25,7 @@ const ContentService = () => {
             variables: {
             	filter: {
 		            page: page,
-		            size: 3
+		            size: size 
 	            }
             }
         }
@@ -66,7 +66,7 @@ const ContentService = () => {
         return graphqlClient(graphql);
     };
 
-    const getNewsBySourceAndCategory = (source,category,page) => {
+    const getNewsBySourceAndCategory = (source,category,page=1,size=3) => {
         const query = `
         query ($source: String, $type: String, $filter: PageFilter) {
             getOnlyApprovedContentBySource(source: $source, category: $type, filter: $filter) {
@@ -94,14 +94,14 @@ const ContentService = () => {
                 type : category,
                 filter: {
 		            page: page,
-		            size: 3
+		            size: size
 	            }
             }
         }
         return graphqlClient(graphql);
     }
 
-    const searchContent = (keyword,page) => {
+    const searchContent = (keyword,page=1,size=3) => {
         const query = `
         query($title:String,$filter:PageFilter){
             searchOnlyApprovedContent(title:$title,filter:$filter){
@@ -127,7 +127,7 @@ const ContentService = () => {
                 title: keyword,
                 filter: {
 		            page: page,
-		            size: 3
+		            size: size
 	            }
             }
         }
