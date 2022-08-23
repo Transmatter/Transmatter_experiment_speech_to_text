@@ -60,7 +60,7 @@
 </template>
 
 <script>
-
+import KeyBoardEvent from '@/components/KeyBoardEvent.vue'
 import { useViewModel } from "./content.viewmodel";
 import NewsDetailsVue from "@/components/NewsDetails.vue";
 import ButtomVue from "@/widget/Buttom.vue";
@@ -70,14 +70,16 @@ import "@hennge/vue3-pagination/dist/vue3-pagination.css";
 import Nprogress from 'nprogress';
 import SC from '@/service/SpellCorrection.js'
 import TTS from '@/service/TTSService.js'
-
+import AudioFeedBack from '@/service/AudioFeedBack.js'
 export default {
     name: "Content Page",
     components: {
-        NewsDetailsVue,
-        ButtomVue,
-        VPagination
-    },
+    NewsDetailsVue,
+    ButtomVue,
+    VPagination,
+    KeyBoardEvent,
+    KeyBoardEvent
+},
     data(){
         return {
             page : 1,
@@ -124,7 +126,9 @@ export default {
                 .then((res) => {
                     this.contents = res.data.data.getAllApprovedContent.content
                     this.pages = res.data.data.getAllApprovedContent.totalPages
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
+                    
             });
         },
         getContent(value) {
@@ -135,6 +139,7 @@ export default {
                 .then((res) => {
                     this.contents = res.data.data.getAllContents.content
                     this.pages = res.data.data.getAllContents.totalPages
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
                 });
             } else {
@@ -143,6 +148,7 @@ export default {
                 .then((res) => {
                     this.contents = res.data.data.getNewsBySource.content
                     this.pages = res.data.data.getNewsBySource.totalPages
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
                 });
             }
@@ -157,6 +163,7 @@ export default {
                 this.pages = res.data.data.searchOnlyApprovedContent.totalPages
                 this.query = keyword
                 this.suggestion = []
+                AudioFeedBack.getSuccessSearch()
                 Nprogress.done();
             });
 
@@ -175,6 +182,7 @@ export default {
                 .then((res) => {
                     this.contents = res.data.data.getOnlyApprovedContentBySource.content
                     this.pages = res.data.data.getOnlyApprovedContentBySource.totalPages
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
                 });
             }
@@ -195,6 +203,20 @@ export default {
                 console.log(err)
                 this.searchContent()
             })
+        },
+         handleKeyPress: function (e) {
+        const keyCode = String(e.keyCode || e.code || e.keyIdentifier);
+            if(keyCode == '38'){
+                if(this.page != this.totalPage){
+                    this.page+=1
+                    this.getAllContents()
+                }
+            }else if(keyCode=='40'){
+                if(this.page!=1){
+                    this.page-=1
+                    this.getAllContents()
+                }
+            }
         }
     },
 }
