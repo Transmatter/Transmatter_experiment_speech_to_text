@@ -2,7 +2,7 @@
 <KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent>
     <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
         <div class="space-y-2 sm:space-y-0 sm:flex sm:-mx-1">
-            <select aria-label="state" @change="getContentBySourceAndCategory" v-model="select" class="px-2 mx-2 select select-primary w-60 max-w-xs bg-primary text-base-100 lg:text-md md:text-md sm:text-xs">
+            <select aria-label="state" @change="loadselect" v-model="select" class="px-2 mx-2 select select-primary w-60 max-w-xs bg-primary text-base-100 lg:text-md md:text-md sm:text-xs">
                 <option disabled value="">เลือกหมวดหมู่</option>
                 <option v-for="opt in source" :value="opt" :key="opt" class="sm:text-sm md:text-md lg:text-md">
                     {{opt.source === 'all' ? 'ทั้งหมด' : opt.source}}
@@ -20,24 +20,6 @@
     <div  v-if="contents.length != 0 && suggestion.length == 0">
         <NewsDetailsVue :contents="contents"/>
         <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-80">
-            <!-- <div v-if="this.select.source != undefined" class="p-1">
-                <v-pagination 
-                v-model="page"
-                :pages="pages" 
-                :range-size="1"
-                activeColor="#bbf7d0"
-                @update:modelValue="getContentBySourceAndCategory"
-                />
-            </div>
-            <div v-else class="p-1">
-                <v-pagination 
-                v-model="page"
-                :pages="pages" 
-                :range-size="1" 
-                activeColor="#bbf7d0"
-                @update:modelValue="searchContent"
-                />
-            </div> -->
             <div>
                 <button v-if="totalElements!=contents.length && !isload" @click="loadmore" class="btn btn-block btn-primary text-base-100">load more</button>
                 <button v-else-if="isload" class="btn btn-block btn-primary text-base-100 loading"></button>
@@ -166,11 +148,29 @@ export default {
                 this.searchContent()
             })
         },
+        loadselect(){
+            this.isload = true;
+            if(typeof this.select == 'string'){
+                this.getAllContents();
+            }
+            if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
+                this.getAllContents();
+            } else {
+                Nprogress.start();
+                ContentService()
+                .getNewsBySourceAndCategory(this.select.source,this.select.type === 'all' ? 'ทั้งหมด' : this.select.type ,this.page,this.size)
+                .then((res) => {
+                    this.contents = res.data.data.getOnlyApprovedContentBySource.content
+                    this.totalElements = res.data.data.getOnlyApprovedContentBySource.totalElements
+                    this.isload = false;
+                    Nprogress.done();
+                });
+            }
+        },
         loadmore(){
             Nprogress.start();
             this.size+=3;
             this.isload = true;
-            console.log(this.select)
             if(typeof this.select == 'string'){
                 this.getAllContents();
             }
