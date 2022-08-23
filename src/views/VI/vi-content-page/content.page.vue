@@ -117,43 +117,57 @@ export default {
             });
         },
         searchContent(keyword=this.query){
-            console.log(keyword)
+            this.size = 3;
+            console.log(keyword,this.select);
             Nprogress.start();
-            ContentService()
-            .searchContent(keyword,this.page)
-            .then((res) => {
+            if (typeof this.select == 'string' || (this.select.source == 'all' && this.select.type == 'all')){
+                ContentService()
+                .searchContent(keyword,this.page,this.size)
+                .then((res) => {
                 this.contents = res.data.data.searchOnlyApprovedContent.content
-                this.pages = res.data.data.searchOnlyApprovedContent.totalPages
+                this.totalElements = res.data.data.searchOnlyApprovedContent.totalElements
                 this.query = keyword
                 this.suggestion = []
                 Nprogress.done();
             });
-
-            
+            } else {
+                ContentService()
+                .searchContentBySrcAndCate(this.query,this.select.source,this.select.type === 'all' ? 'ทั้งหมด' : this.select.type ,this.page,this.size)
+                .then((res) => {
+                    this.contents = res.data.data.searchOnlyApprovedContentSpecInSrcAndCate.content
+                    this.totalElements = res.data.data.searchOnlyApprovedContentSpecInSrcAndCate.totalElements
+                    this.isload = false;
+                    Nprogress.done();
+                });
+            }             
         },
         spellChecking(){
-            SC.checkSpell(this.query)
-            .then((res)=>{
-                if(res.data.suggestion==null){
-                    this.searchContent()
-                }else{
-                    const words = res.data.suggestion
-                    this.suggestion = res.data.suggestion
-                    console.log(words)
-                    TTS.getVoice("คุณหมายถึง "+words[0]+" หรือ "+words[1]+'หรือ ค้นหาด้วยคำของคุณ')
-                }
-            })
-            .catch((err)=>{
-                console.log(err)
-                this.searchContent()
-            })
+            // SC.checkSpell(this.query)
+            // .then((res)=>{
+            //     if(res.data.suggestion==null){
+            //         this.searchContent()
+            //     }else{
+            //         const words = res.data.suggestion
+            //         this.suggestion = res.data.suggestion
+            //         console.log(words)
+            //         TTS.getVoice("คุณหมายถึง "+words[0]+" หรือ "+words[1]+'หรือ ค้นหาด้วยคำของคุณ')
+            //     }
+            // })
+            // .catch((err)=>{
+            //     console.log(err)
+            //     this.searchContent()
+            // })
+            this.searchContent()
         },
         loadselect(){
             this.isload = true;
             if(typeof this.select == 'string'){
                 this.getAllContents();
             }
-            if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
+            if(this.query != ''){
+                this.spellChecking();
+            }
+            else if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
                 this.getAllContents();
             } else {
                 Nprogress.start();
@@ -171,10 +185,23 @@ export default {
             Nprogress.start();
             this.size+=3;
             this.isload = true;
-            if(typeof this.select == 'string'){
+            console.log(this.size)
+            if (typeof this.select == 'string'){
                 this.getAllContents();
-            }
-            if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
+            }else if(this.query !== '' && this.select.source == 'all' && this.select.type == 'all'){
+                this.size = 3;
+                this.searchContent(this.query);
+
+            } else if(this.query !== ''){
+                ContentService()
+                .searchContentBySrcAndCate(this.query,this.select.source,this.select.type === 'all' ? 'ทั้งหมด' : this.select.type ,this.page,this.size)
+                .then((res) => {
+                    this.contents = res.data.data.searchOnlyApprovedContentBySource.content
+                    this.totalElements = res.data.data.searchOnlyApprovedContentBySource.totalElements
+                    this.isload = false;
+                    Nprogress.done();
+                });
+            } else if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
                 this.getAllContents();
             } else {
                 Nprogress.start();

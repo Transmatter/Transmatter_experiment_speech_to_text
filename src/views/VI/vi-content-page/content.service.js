@@ -111,6 +111,7 @@ const ContentService = () => {
                 content { 
                     id
                     type
+                    category
                     source
                     content
                     title
@@ -133,7 +134,53 @@ const ContentService = () => {
         }
         return graphqlClient(graphql);
     }
-    return { getAllContents, getContents, searchContent,getNewsBySourceAndCategory};
+
+    const searchContentBySrcAndCate = (keyword,source,category,page=1,size=3) =>{
+        const query = `
+        query (
+            $source: String
+            $category: String
+            $title: String
+            $filter: PageFilter
+        ) {
+            searchOnlyApprovedContentSpecInSrcAndCate(
+                title: $title
+                source: $source
+                category: $category
+                filter: $filter
+            ) {
+                number
+                totalPages
+                totalElements
+                content {
+                    id
+                    category
+                    source
+                    title
+                    content
+                    author
+                    public_date
+                    approveStatus
+                }
+            }
+        }
+        `;
+
+        const graphql = {
+            query: query,
+            variables : {
+                title: keyword,
+                source: source,
+                category: category,
+                filter: {
+                    page: page,
+                    size: size
+                }
+            }
+        }
+        return graphqlClient(graphql);
+    }
+    return { getAllContents, getContents, searchContent,getNewsBySourceAndCategory,searchContentBySrcAndCate };
 };
 
 export default ContentService;
