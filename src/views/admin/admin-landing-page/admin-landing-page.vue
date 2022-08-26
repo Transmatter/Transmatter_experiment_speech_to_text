@@ -26,7 +26,7 @@
 import { useViewModel } from './admin-landing-page.viewmodel';
 import Drawer from '@/components/Drawer.vue';
 import Card from '@/components/Card.vue';
-import Hero from '@/components/Hero.vue';
+import Hero from '@/components/hero.vue';
 import Stat from '@/components/Stat.vue';
 export default {
     name: 'Admin Landing Page',
