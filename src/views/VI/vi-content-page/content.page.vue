@@ -21,9 +21,9 @@
         <NewsDetailsVue :contents="contents"/>
         <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-80">
             <div>
-                <button v-if="totalElements!=contents.length && !isload" @click="loadmore" class="btn btn-block btn-primary text-base-100">load more</button>
+                <button v-if="totalElements!=contents.length && !isload" @click="loadmore" id="readMore" class="btn btn-block btn-primary text-base-100">load more</button>
                 <button v-else-if="isload" class="btn btn-block btn-primary text-base-100 loading"></button>
-                <button v-else-if="totalElements==contents.length" class="btn btn-block btn-disabled text-base-100">load more</button>
+                <button v-else-if="totalElements==contents.length"  class="btn btn-block btn-disabled text-base-100">load more</button>
             </div>
         </div>
     </div>
@@ -56,6 +56,8 @@ import "@hennge/vue3-pagination/dist/vue3-pagination.css";
 import Nprogress from 'nprogress';
 import SC from '@/service/SpellCorrection.js'
 import TTS from '@/service/TTSService.js'
+import AudioFeedBack from "../../../service/AudioFeedBack";
+
 
 export default {
     name: "Content Page",
@@ -113,6 +115,7 @@ export default {
                     this.contents = res.data.data.getAllApprovedContent.content
                     this.totalElements = res.data.data.getAllApprovedContent.totalElements
                     this.isload = false;
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
             });
         },
@@ -128,6 +131,7 @@ export default {
                 this.totalElements = res.data.data.searchOnlyApprovedContent.totalElements
                 this.query = keyword
                 this.suggestion = []
+                AudioFeedBack.getSuccessSearch()
                 Nprogress.done();
             });
             } else {
@@ -137,27 +141,28 @@ export default {
                     this.contents = res.data.data.searchOnlyApprovedContentSpecInSrcAndCate.content
                     this.totalElements = res.data.data.searchOnlyApprovedContentSpecInSrcAndCate.totalElements
                     this.isload = false;
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
                 });
             }             
         },
         spellChecking(){
-            // SC.checkSpell(this.query)
-            // .then((res)=>{
-            //     if(res.data.suggestion==null){
-            //         this.searchContent()
-            //     }else{
-            //         const words = res.data.suggestion
-            //         this.suggestion = res.data.suggestion
-            //         console.log(words)
-            //         TTS.getVoice("คุณหมายถึง "+words[0]+" หรือ "+words[1]+'หรือ ค้นหาด้วยคำของคุณ')
-            //     }
-            // })
-            // .catch((err)=>{
-            //     console.log(err)
-            //     this.searchContent()
-            // })
-            this.searchContent()
+            SC.checkSpell(this.query)
+            .then((res)=>{
+                if(res.data.suggestion==null){
+                    this.searchContent()
+                }else{
+                    const words = res.data.suggestion
+                    this.suggestion = res.data.suggestion
+                    console.log(words)
+                    TTS.getVoice("คุณหมายถึง "+words[0]+" หรือ "+words[1]+'หรือ ค้นหาด้วยคำของคุณ')
+                }
+            })
+            .catch((err)=>{
+                console.log(err)
+                // this.searchContent()
+            })
+            // this.searchContent()
         },
         loadselect(){
             this.isload = true;
@@ -174,6 +179,7 @@ export default {
                 ContentService()
                 .getNewsBySourceAndCategory(this.select.source,this.select.type === 'all' ? 'ทั้งหมด' : this.select.type ,this.page,this.size)
                 .then((res) => {
+                    AudioFeedBack.getNewContent()
                     this.contents = res.data.data.getOnlyApprovedContentBySource.content
                     this.totalElements = res.data.data.getOnlyApprovedContentBySource.totalElements
                     this.isload = false;
@@ -199,10 +205,12 @@ export default {
                     this.contents = res.data.data.searchOnlyApprovedContentBySource.content
                     this.totalElements = res.data.data.searchOnlyApprovedContentBySource.totalElements
                     this.isload = false;
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
                 });
             } else if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
                 this.getAllContents();
+                
             } else {
                 Nprogress.start();
                 ContentService()
@@ -211,10 +219,19 @@ export default {
                     this.contents = res.data.data.getOnlyApprovedContentBySource.content
                     this.totalElements = res.data.data.getOnlyApprovedContentBySource.totalElements
                     this.isload = false;
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
                 });
             }
+        },
+        handleKeyPress: function (e){
+        const keyCode = String(e.keyCode || e.code || e.keyIdentifier);
+        console.log(keyCode)
+        if(keyCode == '40'){
+            document.getElementById("readMore").click();
         }
+    }
     },
+    
 }
 </script>
