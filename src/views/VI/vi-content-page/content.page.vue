@@ -2,9 +2,9 @@
 <KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent>
     <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
         <div class="space-y-2 sm:space-y-0 sm:flex sm:-mx-1">
-            <select aria-label="state" @change="loadselect" v-model="select" class="px-2 mx-2 select select-primary w-60 max-w-xs bg-primary text-base-100 lg:text-md md:text-md sm:text-xs">
+            <select aria-label="state" @change="loadselect" v-model="select" class="px-2 mx-2 select select-primary w-96 max-w-xs bg-primary text-base-100 lg:text-lg md:text-md sm:text-xs">
                 <option disabled value="">เลือกหมวดหมู่</option>
-                <option v-for="opt in source" :value="opt" :key="opt" class="sm:text-sm md:text-md lg:text-md">
+                <option v-for="opt in source" :value="opt" :key="opt" class="sm:text-sm md:text-md lg:text-lg">
                     {{opt.source === 'all' ? 'ทั้งหมด' : opt.source}}
                     {{opt.type === 'all' ? '' : ' : ' + opt.type}}
                 </option>
