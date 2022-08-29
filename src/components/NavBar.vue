@@ -41,8 +41,6 @@ export default {
              if(document.getElementById("sugg2")){
                 document.getElementById("sugg2").click();
             }
-        }else if(keyCode == '40'){
-            document.getElementById("readMore").click();
         }
 
     }

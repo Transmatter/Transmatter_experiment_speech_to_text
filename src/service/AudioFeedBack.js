@@ -1,7 +1,7 @@
 import getNewContentAudio from '../assets/audio/getNewContent.mp3'
 import SuccessSearch from '../assets/audio/SuccessSearch.mp3'
 import AccessContent from '../assets/audio/accessContent.mp3'
-
+import ErrorSound from '../assets/audio/error.mp3'
 export default{
     getNewContent(){
         const audio1 = new Audio(getNewContentAudio);
@@ -23,5 +23,12 @@ export default{
         audio3.play(); 
         // audio.pause();
         audio3.currentTime = 0;
+    },
+    getError(){
+        const audio4 = new Audio(ErrorSound);
+        console.log("accessContent")
+        audio4.play(); 
+        // audio.pause();
+        audio4.currentTime = 0;
     }
 }
