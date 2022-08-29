@@ -1,13 +1,10 @@
 <template>
-        <div v-for="content in contents" :key="content.id" class="border hover:bg-green-100 lg:mx-80">
+        <div v-for="content in contents" :key="content.id" @click="detail(content.id)" class="border rounded-lg hover:bg-green-100 lg:mx-80 cursor-pointer my-4">
             <p class="px-6 py-2 text-sm">ผู้เขียน: {{convertAuthor(content.author)}}</p>
             <p class="px-6 py-1 text-sm">{{content.category}}</p>
             <p class="px-6 py-6 text-xl font-bold hover:text-green-800">
-                <router-link :to="'/content/' + content.id">
                     {{content.title}}
-                </router-link>
             </p>
-            <p class="px-6 text-sm line-clamp-3 indent-8">{{content.content}}</p>
             <p class="px-6 py-2 text-sm flex justify-end">{{getDate(content.public_date)}}</p>
         </div>
 </template>
@@ -23,6 +20,14 @@ export default {
         }
     },
     methods : {
+        detail(id){
+            this.$router.push({
+                name: 'Content Details',
+                params: {
+                    id: id
+                }
+            })
+        },
         getDate(dateString){
             return dayjs(dateString).locale('th').format('DD MMMM YYYY');
         },
