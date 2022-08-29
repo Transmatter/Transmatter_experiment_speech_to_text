@@ -2,9 +2,9 @@
 <KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent>
     <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
         <div class="space-y-2 sm:space-y-0 sm:flex sm:-mx-1">
-            <select aria-label="state" @change="loadselect" v-model="select" class="px-2 mx-2 select select-primary w-60 max-w-xs bg-primary text-base-100 lg:text-md md:text-md sm:text-xs">
+            <select aria-label="state" @change="loadselect" v-model="select" id="optionSource" data-toggle="dropdown" class="px-2 mx-2 select select-primary w-60 max-w-xs bg-primary text-base-100 lg:text-md md:text-md sm:text-xs">
                 <option disabled value="">เลือกหมวดหมู่</option>
-                <option v-for="opt in source" :value="opt" :key="opt" class="sm:text-sm md:text-md lg:text-md">
+                <option v-for="opt in source" :value="opt" :key="opt" :id="opt.id" class="sm:text-sm md:text-md lg:text-md" >
                     {{opt.source === 'all' ? 'ทั้งหมด' : opt.source}}
                     {{opt.type === 'all' ? '' : ' : ' + opt.type}}
                 </option>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-
+import $ from "jquery";
 import { useViewModel } from "./content.viewmodel";
 import NewsDetailsVue from "@/components/NewsDetails.vue";
 import ButtomVue from "@/widget/Buttom.vue";
@@ -57,14 +57,15 @@ import Nprogress from 'nprogress';
 import SC from '@/service/SpellCorrection.js'
 import TTS from '@/service/TTSService.js'
 import AudioFeedBack from "../../../service/AudioFeedBack";
-
+import KeyBoardEvent from '../../../components/KeyBoardEvent.vue'
 
 export default {
     name: "Content Page",
     components: {
         NewsDetailsVue,
         ButtomVue,
-        VPagination
+        VPagination,
+        KeyBoardEvent
     },
     data(){
         return {
@@ -75,20 +76,21 @@ export default {
             query : '',
             totalElements: 0, 
             source : [
-                {"source": "all","type": "all"},
-                {"source":"ไทยรัฐออนไลน์","type":"all"},
-                {"source":"ไทยรัฐออนไลน์","type":"วิเคราะห์เศรษฐกิจ"},
-                {"source":"ไทยรัฐออนไลน์","type":"การเงิน"},
-                {"source":"ไทยรัฐออนไลน์","type":"นโยบาย"},
-                {"source":"ไทยรัฐออนไลน์","type":"การตลาด"},
-                {"source":"ไทยรัฐออนไลน์","type":"การลงทุน"},
-                {"source":"สนุกออนไลน์","type":"ทั้งหมด"},
-                {"source":"เด็กดี","type":"ชีวิตวัยรุ่น"}
+                {"source": "all","type": "all", "id":"s1"},
+                {"source":"ไทยรัฐออนไลน์","type":"all", "id":"s2"},
+                {"source":"ไทยรัฐออนไลน์","type":"วิเคราะห์เศรษฐกิจ", "id":"s3"},
+                {"source":"ไทยรัฐออนไลน์","type":"การเงิน", "id":"s4"},
+                {"source":"ไทยรัฐออนไลน์","type":"นโยบาย", "id":"s5"},
+                {"source":"ไทยรัฐออนไลน์","type":"การตลาด", "id":"s6"},
+                {"source":"ไทยรัฐออนไลน์","type":"การลงทุน", "id":"s7"},
+                {"source":"สนุกออนไลน์","type":"ทั้งหมด", "id":"s8"},
+                {"source":"เด็กดี","type":"ชีวิตวัยรุ่น", "id":"s9"}
             ],
             select : '' ,
             spell_error: true,
             suggestion:[],
-            isload: false
+            isload: false,
+            souece_index : -1
         }
     },
     setup() {
@@ -131,7 +133,12 @@ export default {
                 this.totalElements = res.data.data.searchOnlyApprovedContent.totalElements
                 this.query = keyword
                 this.suggestion = []
-                AudioFeedBack.getSuccessSearch()
+                if(this.contents.length==0){
+                    AudioFeedBack.getError()
+                }else{
+                   AudioFeedBack.getSuccessSearch() 
+                }
+                
                 Nprogress.done();
             });
             } else {
@@ -141,7 +148,12 @@ export default {
                     this.contents = res.data.data.searchOnlyApprovedContentSpecInSrcAndCate.content
                     this.totalElements = res.data.data.searchOnlyApprovedContentSpecInSrcAndCate.totalElements
                     this.isload = false;
-                    AudioFeedBack.getNewContent()
+                    if(this.contents.length==0){
+                        AudioFeedBack.getError()
+                    }else{
+                       AudioFeedBack.getNewContent() 
+                    }
+                    
                     Nprogress.done();
                 });
             }             
@@ -226,10 +238,48 @@ export default {
         },
         handleKeyPress: function (e){
         const keyCode = String(e.keyCode || e.code || e.keyIdentifier);
-        console.log(keyCode)
         if(keyCode == '40'){
             document.getElementById("readMore").click();
+        }else if(keyCode == '88'){
+            if(this.souece_index==this.source.length-1){
+                this.souece_index=0
+            }else{
+                this.souece_index+=1
+            }
+            const s = this.source[this.souece_index].source
+            const t = this.source[this.souece_index].type
+            const readyToTTS = s+" "+t
+            TTS.getVoice(readyToTTS)
+            
+            
+        }else if(keyCode == '16'){
+            // const i = this.source[this.souece_index].id
+            // console.log(i)
+            // $('#optionSource').attr('size',this.source.length)
+            // // $('#optionSource').val(i).change()
+            // document.getElementById(i).click();
+            const index = this.souece_index === -1? 0: this.souece_index
+            const source = this.source[index].source
+            const type = this.source[index].type
+           if((source== 'all' && type == 'all')){
+                this.getAllContents();
+           }else{
+            ContentService()
+                .getNewsBySourceAndCategory(source,type=== 'all' ? 'ทั้งหมด' : type,this.page,this.size)
+                .then((res) => {
+                    this.contents = res.data.data.getOnlyApprovedContentBySource.content
+                    this.totalElements = res.data.data.getOnlyApprovedContentBySource.totalElements
+                    this.isload = false;
+                    AudioFeedBack.getNewContent()
+                    Nprogress.done();
+                });
+
+           }
+            
+            
+
         }
+    
     }
     },
     
