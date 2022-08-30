@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 import { useViewModel } from "./content.viewmodel";
 import NewsDetailsVue from "@/components/NewsDetails.vue";
 import ButtomVue from "@/widget/Buttom.vue";
