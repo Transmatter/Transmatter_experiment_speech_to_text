@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+  frontend:
+    image: oat431/platform:test
+    ports:
+      - "3300:80"
