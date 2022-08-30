@@ -15,7 +15,7 @@ import VIHome from '@/views/VI/Home.vue';
 import VIContentPage from '@/views/VI/vi-content-page/content.page.vue';
 import AdminLandingPage from '@/views/admin/admin-landing-page/admin-landing-page.vue';
 import store from '@/store';
-
+import AudioFeedBack from '../service/AudioFeedBack';
 function checkAuth(to) {
     if (localStorage.user == undefined) {
         return '/';
@@ -104,6 +104,13 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return { top: 0 }
+        }
+    },
 });
 
 router.beforeEach(() => {

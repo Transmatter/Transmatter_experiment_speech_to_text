@@ -32,7 +32,7 @@
                     <tbody >
                         <tr v-for="(image,index) in contentDetail.images" :key="index">
                             <td>
-                                <img class="my-2 mx-3 h-64" :src="image.url" :alt="image.alt" @mouseover="readImage(image.alt)"/>
+                                <img class="my-2 mx-3 h-64" :src="image.url" :alt="image.alt"/>
                             </td>
                             <td>
                                 <div v-if="image.verifyStatus == 'COMPLETE'">
@@ -81,6 +81,7 @@ import ContentDetailSerivce from "./content-detail.service"
 import Nprogress from 'nprogress';
 import TTS from '@/service/TTSService';
 import dayjs from 'dayjs'
+import AudioFeed from "../../../service/AudioFeedBack.js";
 import 'dayjs/locale/th'
 export default defineComponent({
     name: 'ContentDetailPage',
@@ -162,6 +163,7 @@ export default defineComponent({
         ContentDetailSerivce()
         .getContentById(this.$route.params.id)
         .then((res) => {
+            AudioFeed.getAccessContent()
             this.contentDetail = res.data.data.getContent
             this.imagesAlt = this.contentDetail.images.map(image => image.alt)
             this.title = this.contentDetail.title
