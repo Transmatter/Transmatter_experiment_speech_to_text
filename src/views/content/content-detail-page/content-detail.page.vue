@@ -55,7 +55,7 @@
                 </table>
             </div>
             <div v-else v-for="(image,index) in contentDetail.images" :key="index">
-                <img class="my-2 mx-3 h-64" :src="image.url" :alt="image.alt" @mouseover="readImage(image.alt)"/>
+                <img class="my-2 mx-3 h-64" :src="image.url" :alt="image.alt"/>
             </div>
         </div >
         <div class="grid grid-cols-6 justify-item-end my-6" v-if="(this.$store.getters.getRole == 'ROLE_SUPER_ADMIN' || this.$store.getters.getRole == 'ROLE_ADMIN') && this.$store.getters.getStatus == 'VERIFIED'">
