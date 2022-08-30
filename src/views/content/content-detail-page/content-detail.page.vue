@@ -17,7 +17,7 @@
         <div v-else>
             <p class="text-2xl font-bold py-2">{{contentDetail.title}}</p>
             <p class="text-sm py-3 px-3">{{contentDetail.author}}</p>
-            <p class="text-sm py-3 px-3">{{contentDetail.public_date}}</p>
+            <p class="text-sm py-3 px-3">{{getDate(contentDetail.public_date)}}</p>
             <p class="text-md py-3 px-3 leading-8 text-justify indent-8">{{contentDetail.content}}</p>
         </div>
         <div class="inline-flex items-baseline" >
