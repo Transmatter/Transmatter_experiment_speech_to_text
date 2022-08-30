@@ -90,7 +90,7 @@ export default {
             spell_error: true,
             suggestion:[],
             isload: false,
-            souece_index : -1
+            index : 0 
         }
     },
     setup() {
@@ -185,8 +185,18 @@ export default {
                 this.spellChecking();
             }
             else if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
+                const readyToTTS = "คุณอยู่ที่เนื้อหาทั้งหมด" 
+                TTS.getVoice(readyToTTS)
                 this.getAllContents();
             } else {
+                let t = '';
+                if(this.select.type === 'all'){
+                    t = 'ทั้งหมด'
+                }else {
+                    t = this.select.type
+                }
+                const readyToTTS = "คุณอยู่ที่ " + this.select.source + " หมวด" + t
+                TTS.getVoice(readyToTTS)
                 Nprogress.start();
                 ContentService()
                 .getNewsBySourceAndCategory(this.select.source,this.select.type === 'all' ? 'ทั้งหมด' : this.select.type ,this.page,this.size)
@@ -203,7 +213,6 @@ export default {
             Nprogress.start();
             this.size+=3;
             this.isload = true;
-            console.log(this.size)
             if (typeof this.select == 'string'){
                 this.getAllContents();
             }else if(this.query !== '' && this.select.source == 'all' && this.select.type == 'all'){
@@ -222,7 +231,7 @@ export default {
                 });
             } else if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
                 this.getAllContents();
-                
+                TTS.getVoice(readyToTTS)
             } else {
                 Nprogress.start();
                 ContentService()
@@ -241,45 +250,10 @@ export default {
         if(keyCode == '40'){
             document.getElementById("readMore").click();
         }else if(keyCode == '88'){
-            if(this.souece_index==this.source.length-1){
-                this.souece_index=0
-            }else{
-                this.souece_index+=1
-            }
-            const s = this.source[this.souece_index].source
-            const t = this.source[this.souece_index].type
-            const readyToTTS = s+" "+t
-            TTS.getVoice(readyToTTS)
-            
-            
-        }else if(keyCode == '16'){
-            // const i = this.source[this.souece_index].id
-            // console.log(i)
-            // $('#optionSource').attr('size',this.source.length)
-            // // $('#optionSource').val(i).change()
-            // document.getElementById(i).click();
-            const index = this.souece_index === -1? 0: this.souece_index
-            const source = this.source[index].source
-            const type = this.source[index].type
-           if((source== 'all' && type == 'all')){
-                this.getAllContents();
-           }else{
-            ContentService()
-                .getNewsBySourceAndCategory(source,type=== 'all' ? 'ทั้งหมด' : type,this.page,this.size)
-                .then((res) => {
-                    this.contents = res.data.data.getOnlyApprovedContentBySource.content
-                    this.totalElements = res.data.data.getOnlyApprovedContentBySource.totalElements
-                    this.isload = false;
-                    AudioFeedBack.getNewContent()
-                    Nprogress.done();
-                });
-
-           }
-            
-            
-
+            this.index++;
+            this.select = this.source[this.index%this.source.length]
+            this.loadselect()
         }
-    
     }
     },
     
