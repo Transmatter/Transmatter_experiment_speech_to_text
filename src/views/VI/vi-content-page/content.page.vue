@@ -1,6 +1,6 @@
 <template>
 <KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent>
-    <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
+    <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-0">
         <div class="space-y-2 sm:space-y-0 sm:flex sm:-mx-1">
             <select aria-label="state" @change="loadselect" v-model="select" id="optionSource" data-toggle="dropdown" class="px-2 mx-2 select select-primary w-60 max-w-xs bg-primary text-base-100 lg:text-md md:text-md sm:text-xs">
                 <option disabled value="">เลือกหมวดหมู่</option>
@@ -19,7 +19,7 @@
     </div>
     <div  v-if="contents.length != 0 && suggestion.length == 0">
         <NewsDetailsVue :contents="contents"/>
-        <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-80">
+        <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-0">
             <div>
                 <button v-if="totalElements!=contents.length && !isload" @click="loadmore" id="readMore" class="btn btn-block btn-primary text-base-100">load more</button>
                 <button v-else-if="isload" class="btn btn-block btn-primary text-base-100 loading"></button>
@@ -158,6 +158,11 @@ export default {
             }             
         },
         spellChecking(){
+            if(this.query.length === 0){
+                TTS.getVoice("กรุณากรอกคำค้นหา")
+                alert("กรุณากรอกคำค้นหา")
+                return 
+            }
             SC.checkSpell(this.query)
             .then((res)=>{
                 if(res.data.suggestion==null){
