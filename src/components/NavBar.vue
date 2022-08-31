@@ -38,9 +38,11 @@ export default {
                 document.getElementById("sugg2").click();
             }
         }else if(keyCode=='67'){
-             if(document.getElementById("sugg2")){
-                document.getElementById("sugg2").click();
+             if(document.getElementById("sugg3")){
+                document.getElementById("sugg3").click();
             }
+        }else if(keyCode == '38'){
+            this.$router.push({ name: "Home" })
         }
 
     }
