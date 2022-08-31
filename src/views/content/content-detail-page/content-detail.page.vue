@@ -79,9 +79,9 @@ import ButtomErrorVue from "@/widget/ButtomError.vue";
 import ButtomVue from "@/widget/Buttom.vue";
 import ContentDetailSerivce from "./content-detail.service"
 import Nprogress from 'nprogress';
-import TTS from '@/service/TTSService';
+// import TTS from '@/service/TTSService';
 import dayjs from 'dayjs'
-import AudioFeed from "../../../service/AudioFeedBack.js";
+// import AudioFeed from "../../../service/AudioFeedBack.js";
 import 'dayjs/locale/th'
 export default defineComponent({
     name: 'ContentDetailPage',
@@ -103,10 +103,10 @@ export default defineComponent({
             return dayjs(dateString).locale('th').format('DD MMMM YYYY');
         },
         read(){
-            TTS.getVoice(this.contentDetail.content);
+            // TTS.getVoice(this.contentDetail.content);
         },
         readImage(alt){
-            TTS.getVoice(alt)
+            // TTS.getVoice(alt)
         },
         getImageContent(){
             Nprogress.start()
@@ -163,7 +163,7 @@ export default defineComponent({
         ContentDetailSerivce()
         .getContentById(this.$route.params.id)
         .then((res) => {
-            AudioFeed.getAccessContent()
+            // AudioFeed.getAccessContent()
             this.contentDetail = res.data.data.getContent
             this.imagesAlt = this.contentDetail.images.map(image => image.alt)
             this.title = this.contentDetail.title

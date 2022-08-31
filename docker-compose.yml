@@ -2,6 +2,6 @@ version: '3.7'
 
 services:
   frontend:
-    image: oat431/platform:latest
+    image: oat431/platform:noaduio
     ports:
-      - "80:80"
+      - "3330:80"
