@@ -30,11 +30,3 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/platform:noaduio
-      -
-        name: prepare the docker-compose run
-        run: |
-          mkdir transmatter-frontend
-          cp docker-compose.yml transmatter-frontend/docker-compose.yml
-          cd transmatter-frontend
-          docker-compose -H ${{ secrets.HOST_SERVER }} pull
-          docker-compose -H ${{ secrets.HOST_SERVER }} up -d 
