@@ -1,9 +1,9 @@
 <template>
-        <div v-for="content in contents" :key="content.id" @dblclick="detail(content.id)" class="border rounded-lg hover:bg-green-100 lg:mx-80 cursor-pointer my-4">
+        <div v-for="content in contents" :key="content.id" @dblclick="detail(content.id)" class="border rounded-lg hover:bg-green-100 lg:mx-0 cursor-pointer my-4">
             <p class="px-6 py-2 text-sm">ผู้เขียน: {{convertAuthor(content.author)}}</p>
             <p class="px-6 py-1 text-sm">{{content.category}}</p>
             <p class="px-6 py-6 text-xl font-bold hover:text-green-800">
-                    {{content.title}}
+                {{content.title}}
             </p>
             <p class="px-6 py-2 text-sm flex justify-end">{{getDate(content.public_date)}}</p>
         </div>
