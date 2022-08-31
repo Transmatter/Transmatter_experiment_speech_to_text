@@ -1,6 +1,6 @@
 <template>
-<!-- <KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent> -->
-    <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-80">
+<KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent>
+    <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-0">
         <div class="space-y-2 sm:space-y-0 sm:flex sm:-mx-1">
             <select aria-label="state" @change="loadselect" v-model="select" id="optionSource" data-toggle="dropdown" class="px-2 mx-2 select select-primary w-60 max-w-xs bg-primary text-base-100 lg:text-md md:text-md sm:text-xs">
                 <option disabled value="">เลือกหมวดหมู่</option>
@@ -19,7 +19,7 @@
     </div>
     <div  v-if="contents.length != 0 && suggestion.length == 0">
         <NewsDetailsVue :contents="contents"/>
-        <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-80">
+        <div class="w-full sm:w-auto overflow-hidden bg-green-50 rounded-lg my-6 lg:mx-0">
             <div>
                 <button v-if="totalElements!=contents.length && !isload" @click="loadmore" id="readMore" class="btn btn-block btn-primary text-base-100">load more</button>
                 <button v-else-if="isload" class="btn btn-block btn-primary text-base-100 loading"></button>
@@ -54,9 +54,9 @@ import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";
 import Nprogress from 'nprogress';
 import SC from '@/service/SpellCorrection.js'
-// import TTS from '@/service/TTSService.js'
-// import AudioFeedBack from "../../../service/AudioFeedBack";
-// import KeyBoardEvent from '../../../components/KeyBoardEvent.vue'
+import TTS from '@/service/TTSService.js'
+import AudioFeedBack from "../../../service/AudioFeedBack";
+import KeyBoardEvent from '../../../components/KeyBoardEvent.vue'
 
 export default {
     name: "Content Page",
@@ -64,7 +64,7 @@ export default {
         NewsDetailsVue,
         ButtomVue,
         VPagination,
-        // KeyBoardEvent
+        KeyBoardEvent
     },
     data(){
         return {
@@ -116,7 +116,7 @@ export default {
                     this.contents = res.data.data.getAllApprovedContent.content
                     this.totalElements = res.data.data.getAllApprovedContent.totalElements
                     this.isload = false;
-                    // AudioFeedBack.getNewContent()
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
             });
         },
@@ -132,11 +132,11 @@ export default {
                 this.totalElements = res.data.data.searchOnlyApprovedContent.totalElements
                 this.query = keyword
                 this.suggestion = []
-                // if(this.contents.length==0){
-                //     AudioFeedBack.getError()
-                // }else{
-                //    AudioFeedBack.getSuccessSearch() 
-                // }
+                if(this.contents.length==0){
+                    AudioFeedBack.getError()
+                }else{
+                    AudioFeedBack.getSuccessSearch() 
+                }
                 
                 Nprogress.done();
             });
@@ -147,11 +147,11 @@ export default {
                     this.contents = res.data.data.searchOnlyApprovedContentSpecInSrcAndCate.content
                     this.totalElements = res.data.data.searchOnlyApprovedContentSpecInSrcAndCate.totalElements
                     this.isload = false;
-                    // if(this.contents.length==0){
-                    //     AudioFeedBack.getError()
-                    // }else{
-                    //    AudioFeedBack.getNewContent() 
-                    // }
+                    if(this.contents.length==0){
+                        AudioFeedBack.getError()
+                    }else{
+                        AudioFeedBack.getNewContent() 
+                    }
                     
                     Nprogress.done();
                 });
@@ -159,7 +159,7 @@ export default {
         },
         spellChecking(){
             if(this.query.length === 0){
-                // TTS.getVoice("กรุณากรอกคำค้นหา")
+                TTS.getVoice("กรุณากรอกคำค้นหา")
                 alert("กรุณากรอกคำค้นหา")
                 return 
             }
@@ -171,7 +171,7 @@ export default {
                     const words = res.data.suggestion
                     this.suggestion = res.data.suggestion
                     console.log(words)
-                    // TTS.getVoice("คุณหมายถึง "+words[0]+" หรือ "+words[1]+'หรือ ค้นหาด้วยคำของคุณ')
+                    TTS.getVoice("คุณหมายถึง "+words[0]+" หรือ "+words[1]+'หรือ ค้นหาด้วยคำของคุณ')
                 }
             })
             .catch((err)=>{
@@ -189,8 +189,8 @@ export default {
                 this.spellChecking();
             }
             else if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
-                // const readyToTTS = "คุณอยู่ที่เนื้อหาทั้งหมด" 
-                // TTS.getVoice(readyToTTS)
+                const readyToTTS = "คุณอยู่ที่เนื้อหาทั้งหมด" 
+                TTS.getVoice(readyToTTS)
                 this.getAllContents();
             } else {
                 let t = '';
@@ -199,13 +199,13 @@ export default {
                 }else {
                     t = this.select.type
                 }
-                // const readyToTTS = "คุณอยู่ที่ " + this.select.source + " หมวด" + t
-                // TTS.getVoice(readyToTTS)
+                const readyToTTS = "คุณอยู่ที่ " + this.select.source + " หมวด" + t
+                TTS.getVoice(readyToTTS)
                 Nprogress.start();
                 ContentService()
                 .getNewsBySourceAndCategory(this.select.source,this.select.type === 'all' ? 'ทั้งหมด' : this.select.type ,this.page,this.size)
                 .then((res) => {
-                    // AudioFeedBack.getNewContent()
+                    AudioFeedBack.getNewContent()
                     this.contents = res.data.data.getOnlyApprovedContentBySource.content
                     this.totalElements = res.data.data.getOnlyApprovedContentBySource.totalElements
                     this.isload = false;
@@ -230,12 +230,12 @@ export default {
                     this.contents = res.data.data.searchOnlyApprovedContentBySource.content
                     this.totalElements = res.data.data.searchOnlyApprovedContentBySource.totalElements
                     this.isload = false;
-                    // AudioFeedBack.getNewContent()
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
                 });
             } else if((this.select.source == 'all' && this.select.type == 'all') || this.select == null){
                 this.getAllContents();
-                // TTS.getVoice(readyToTTS)
+                TTS.getVoice(readyToTTS)
             } else {
                 Nprogress.start();
                 ContentService()
@@ -244,7 +244,7 @@ export default {
                     this.contents = res.data.data.getOnlyApprovedContentBySource.content
                     this.totalElements = res.data.data.getOnlyApprovedContentBySource.totalElements
                     this.isload = false;
-                    // AudioFeedBack.getNewContent()
+                    AudioFeedBack.getNewContent()
                     Nprogress.done();
                 });
             }
