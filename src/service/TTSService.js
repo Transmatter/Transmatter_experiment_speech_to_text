@@ -25,9 +25,12 @@ export default{
                 window.speechSynthesis.speak(utterance);
                 // console.log(utterance)
             
-            },1500)
+            },1000)
             
 
+},
+stopVoice(){
+    window.speechSynthesis.cancel()
 }
 
 }
