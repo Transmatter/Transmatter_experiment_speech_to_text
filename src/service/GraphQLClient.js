@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const graphqlAxiosInstant = axios.create({
-    baseURL: "http://52.230.104.188:3917",
+    baseURL: "http://52.230.104.188:8080",
 
     headers: {
       Accept: 'application/json',
