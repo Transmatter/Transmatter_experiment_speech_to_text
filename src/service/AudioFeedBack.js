@@ -1,4 +1,4 @@
-import getNewContentAudio from '../assets/audio/getNewContent.mp3'
+import getNewContentAudio from '../assets/audio/LoadMore.mp3'
 import SuccessSearch from '../assets/audio/SuccessSearch.mp3'
 import AccessContent from '../assets/audio/accessContent.mp3'
 import ErrorSound from '../assets/audio/error.mp3'
