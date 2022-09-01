@@ -5,7 +5,7 @@ const path = require('path')
 export default defineConfig({
   plugins: [vue()],
   server:{
-    port : 5500
+    port : 3300
   },
   resolve:{
     alias:{
