@@ -135,7 +135,7 @@ export default {
                 if(this.contents.length==0){
                     AudioFeedBack.getError()
                 }else{
-                   AudioFeedBack.getSuccessSearch() 
+                    AudioFeedBack.getSuccessSearch() 
                 }
                 
                 Nprogress.done();
@@ -150,7 +150,7 @@ export default {
                     if(this.contents.length==0){
                         AudioFeedBack.getError()
                     }else{
-                       AudioFeedBack.getNewContent() 
+                        AudioFeedBack.getNewContent() 
                     }
                     
                     Nprogress.done();
