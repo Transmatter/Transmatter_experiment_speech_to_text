@@ -1,22 +1,20 @@
 <template>
 <KeyBoardEvent v-on:keyup="handleKeyPress"></KeyBoardEvent>
-    <div class="p-1.5 w-full sm:w-auto overflow-hidden bg-white rounded-lg my-6 lg:mx-0">
-        <div class="space-y-2 sm:space-y-0 sm:flex sm:-mx-1">
-            <select aria-label="คุณกำลังเลือกหมวดหมูของบทความ" @change="loadselect" v-model="select" id="optionSource" data-toggle="dropdown" class="px-2 mx-2 select select-primary w-96 max-w-xs bg-primary text-base-100 lg:text-xl md:text-md sm:text-xs">
+        <div class="flex flex-row my-6">
+            <select aria-label="คุณกำลังเลือกหมวดหมูของบทความ" @change="loadselect" v-model="select" id="optionSource" data-toggle="dropdown" class="px-2 mx-1 select select-primary w-1/2 bg-primary text-base-100 lg:text-xl md:text-md sm:text-xs">
                 <option disabled value="">เลือกหมวดหมู่</option>
                 <option v-for="opt in source" :value="opt" :key="opt" @mouseover="PlaySound(opt.source,opt.type)" @mouseleaves="stopSound" class="sm:text-sm md:text-md lg:text-xl" >
                     {{opt.source === 'all' ? 'ทั้งหมด' : opt.source}}
                     {{opt.type === 'all' ? '' : ' : ' + opt.type}}
                 </option>
             </select>
-            <div class="flex flex-col mt-8 space-y-3 sm:space-y-0 sm:flex-row sm:justify-center sm:-mx-2">
-                <input id="searchBox" v-model="query" type="text" class="input input-bordered input-primary w-96 max-w-xs mx-4 text-xl" placeholder="หาข่าวอื่นๆ">
-                <button  id="searchButt" @click="spellChecking()" class="px-4 py-2 btn btn-primary btn-md text-base-100 ">
+            <div class="flex w-full items-center sm:flex-row sm:justify-center">
+                <input id="searchBox" v-model="query" type="text" class="w-9/12 input input-bordered input-primary mx-1 text-xl" placeholder="หาข่าวอื่นๆ">
+                <button  id="searchButt" @click="spellChecking()" class="w-2/12 px-4 py-2 btn btn-primary btn-md text-base-100 ">
                     Search
                 </button>
             </div>
         </div>
-    </div>
     <p class="mx-6">มีข่าวทั้งสิ้น {{totalElements}} รายการ</p>
     <div  v-if="contents.length != 0 && suggestion.length == 0">
         <NewsDetailsVue :contents="contents"/>
