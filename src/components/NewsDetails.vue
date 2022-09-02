@@ -1,5 +1,5 @@
 <template>
-        <div v-for="content in contents" :key="content.id" @dblclick="detail(content.id)" class="border rounded-lg hover:bg-green-100 lg:mx-0 cursor-pointer my-4">
+        <div v-for="content in contents" :key="content.id" @dblclick="detail(content.id)" class="border rounded-lg hover:bg-green-100 lg:mx-80 cursor-pointer my-4">
             <p class="px-6 py-6 text-2xl font-bold hover:text-green-800">
                 {{content.title}}
             </p>
